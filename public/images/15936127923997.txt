@@ -1,0 +1,210 @@
+cau1.	The additional percentage or dollar amount by which actual costs exceed estimates is called the cost ____.?
+a.	excess	c.	completion
+b.	availability	d.	overrun
+
+
+
+
+	cau2.	EVM stands for ____ value management.?
+a.	excess	c.	eventual
+b.	earned	d.	economic
+
+
+
+
+	cau3.	Project ____ management includes the processes required to ensure that a project team completes a project within an approved budget.?
+a.	cost	c.	scope
+b.	time frame	d.	goal
+
+
+
+
+	cau4.	____ planning involves determining what people, equipment, and materials a project team should use to perform project activities and the quantities of each resource.?
+a.	Scope	c.	Resource
+b.	Cost	d.	Development
+
+
+
+
+	cau5.	The output of the resource planning process is a list of resource ____.?
+a.	goals	c.	ideas
+b.	requirements	d.	plans
+
+
+
+
+	cau6.	Cost ____ involves developing an approximation of the costs of the resources needed to complete a project.?
+a.	budgeting	c.	estimating
+b.	control	d.	planning
+
+
+
+
+	cau7.	The main outputs of the cost estimating process are cost estimates, ____ detail, and a cost management plan.?
+a.	development	c.	scope
+b.	budget	d.	supporting
+
+
+
+
+	cau8.	Cost ____ involves allocating the overall cost estimate to individual work items to establish a baseline for measuring performance.?
+a.	budgeting	c.	control
+b.	analysis	d.	estimating
+
+
+
+
+	cau9.	The main output of the cost budgeting process is a cost ____.?
+a.	graph	c.	analysis
+b.	baseline	d.	estimate
+
+
+
+
+	cau10.	The main outputs of the cost control process are revised cost estimates, budget ____, corrective action, estimate at completion, and lessons learned.?
+a.	charts	c.	updates
+b.	timelines	d.	goals
+
+
+
+
+	cau11.	Profit ____ is the ratio between revenues and profits.?
+a.	margin	c.	scope
+b.	life cycle	d.	cost
+
+
+
+
+	cau12.	____ costing allows you to see a big-picture view of the cost of a project and develop an accurate projection of a project’s financial benefits.?
+a.	Project scope	c.	Development
+b.	Life cycle	d.	Profit
+
+
+
+
+	cau13.	____ costs or benefits are those costs or benefits that an organization can easily measure in dollars.?
+a.	Sunk	c.	Indirect
+b.	Direct	d.	Tangible
+
+
+
+
+	cau14.	____ costs or benefits are costs or benefits that are difficult to measure in monetary terms.?
+a.	Indirect	c.	Intangible
+b.	Direct	d.	Tangible
+
+
+
+
+	cau15.	____ costs are costs related to a project that an organization can trace back in a cost-effective way.?
+a.	Direct	c.	Sunk
+b.	Indirect	d.	Intangible
+
+
+
+
+	cau16.	The cost of electricity, paper towels, and so on in a large building housing a thousand employees are examples of ____ costs.?
+a.	tangible	c.	direct
+b.	intangible	d.	indirect
+
+
+
+
+	cau17.	____ cost is money that has been spent in the past.?
+a.	Direct	c.	Sunk
+b.	Indirect	d.	Intangible
+
+
+
+
+	cau18.	Contingency reserves, also sometimes called ____, allow for future situations that may be partially planned for and are included in the project cost baseline.?
+a.	unknown knowns	c.	unknown unknowns
+b.	known unknowns	d.	known knowns
+
+
+
+
+	cau19.	Management reserves, sometimes called ____, allow for future situations that are unpredictable.?
+a.	unknown unknowns	c.	unknown knowns
+b.	known unknowns	d.	known knowns
+
+
+
+
+	cau20.	A ROM or a rough order of ____ (ROM) estimate provides a rough idea of what a project will cost.?
+a.	maintenance	c.	magnitude
+b.	money	d.	misdemeanors
+
+
+
+
+	cau21.	____ estimates are used for making many purchasing decisions for which accurate estimates are required and for estimating final project costs.?
+a.	Budgetary	c.	Rough
+b.	Definitive	d.	Absolute
+
+
+
+
+	cau22.	____ estimates use the actual cost of a previous, similar project as the basis for estimating the cost of the current project.?
+a.	Analogous	c.	Parametric
+b.	Bottom-up	d.	Constructive Cost
+
+
+
+
+	cau23.	One popular parametric model is the ____ Cost Model, which is used for estimating software development costs based on parameters such as the source lines of code or function points.?
+a.	Creative	c.	Coupled
+b.	Collaborative	d.	Constructive
+
+
+
+
+	cau24.	EVM or ____ value management is a project performance measurement technique that integrates scope, time, and cost data.?
+a.	excess	c.	earned
+b.	eventual	d.	elapsed
+
+
+
+
+	cau25.	A(n) ____ is the original project plan plus approved changes.?
+a.	description	c.	forecast
+b.	baseline	d.	assignment
+
+
+
+
+	cau26.	The ____ value (PV), also called the budget, is that portion of the approved total cost estimate planned to be spent on an activity during a given period.?
+a.	prepared	c.	periodical
+b.	planned	d.	participant
+
+
+
+
+	cau27.	The ____ is the total direct and indirect costs incurred in accomplishing work on an activity during a given period.?
+a.	planned value	c.	actual cost
+b.	earned value	d.	budgeted cost
+
+
+
+
+	cau28.	____ is the earned value minus the actual cost.?
+a.	Schedule variance	c.	Schedule performance index
+b.	Cost performance index	d.	Cost variance
+
+
+
+
+	cau29.	The ____ performance index can be used to calculate the estimate at completion (EAC), an estimate of what it will cost to complete the project based on performance to date.?
+a.	completion	c.	spreadsheet
+b.	cost	d.	project
+
+
+
+
+ 
+
+	cau30.	The figure above shows the earned value chart for the project after ____ month(s).?
+a.	one	c.	twelve
+b.	five	d.	thirteen
+
+
