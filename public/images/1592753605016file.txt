@@ -1,7 +1,0 @@
-cau 1:lam sao test?
-a.dung    b.sai
-c.d biet  d.hihi
-
-cau 2:lam sao test?
-a.dung    b.sai
-c.d biet  d.hihi

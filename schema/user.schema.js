@@ -40,7 +40,7 @@ role:{
     timestamps:true,
 },
 {
-    collection: 'login'
+    collection: "User"
 },
 );
 userSchema.pre("save",async function(next){
@@ -60,13 +60,14 @@ const salt=await bcrypt.genSalt(10)
 next(error)
 }
 })
-// userSchema.methods.isValidPassword=async function(newPassword){
-// try{
-//    return await bcrypt.compare(newPassword,this.password)                 //phair cos return
-// }catch(error){
-//     throw error
+userSchema.methods.isValidPassword=async function(newPassword){
+try{
+   return await bcrypt.compare(newPassword,this.password)                 //phair cos return
+}catch(error){
+    throw error
     
     
-//  }
+ }
+}
 
 module.exports= mongoose.model('users',userSchema);

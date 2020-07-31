@@ -7,18 +7,20 @@
 var app = require('../app');
 var debug = require('debug')('backend:server');
 var http = require('http');
-
+var fetch =require("node-fetch")
+// var redis =require("redis")
 /**
  * Get port from environment and store in Express.
  */
-
+// var portRedis=process.env.portRedis || 6379
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
-
+//  const clientredis=redis.createClient(portRedis)
+//  module.exports=clientredis;
 var server = http.createServer(app);
 
 /**

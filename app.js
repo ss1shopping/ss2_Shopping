@@ -4,24 +4,27 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose=require("mongoose")
+var session=require("express-session")
+var connectRedis=require('connect-redis')
+var Redis=require("ioredis")
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const passport =require("passport");
+
+
 // const uri =require('./config.json');
-// const uri="mongodb+srv://manhtien465:tien1234@cluster0-vaatg.mongodb.net/timi?retryWrites=true&w=majority"
-// mongoose.connect(uri,{useNewUrlParser:true,useCreateIndex:true,useUnifiedTopology:true})
-// const connection=mongoose.connection;
-// connection.once('open',()=>{
-//   console.log("thanhf cong");
-  
-// })
-// const{Pool,Client}=require("pg")
-// const pool=new Pool({
-//   user:"tien1",
-//   password:"tien1234",
-//   host:"localhost",
-//   port:5432,
-//   database:"postgres"
-// })
+// const uri="mongodb+srv://manhtien465:tien1234@cluster0-vaatg.mongodb.net/test?retryWrites=true&w=majority"
+const Session_Option=require("./config/session")
+const Redis_option =require("./config/cache")
+const MONGO_Options=require("./config/db")
+
+const connect=mongoose.connect(MONGO_Options.MONGO_URI,MONGO_Options.MONGO_Option)
+.then(()=>console.log("connect MongoDb"))
+.catch(err=>console.log(err)
+)
+const RedisStore = connectRedis(session)
+  const client = new Redis(Redis_option.Redis_Option)
+  const store = new RedisStore({ client })
 var app = express();
 
 // view engine setup
@@ -36,6 +39,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use(passport.initialize());
+app.use(passport.session());
+// app.use(
+//   session({ ...Session_Option,
+//     store:new RedisStore({client})
+//   })
+// )
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
