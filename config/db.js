@@ -1,6 +1,6 @@
 const {
-MONGO_USERNAME="test",
-MONGO_PASSWORD="test",
+MONGO_USERNAME="manhtien465",
+MONGO_PASSWORD="tien1234",
 MONGO_DATABASE="test"
 }=process.env
 

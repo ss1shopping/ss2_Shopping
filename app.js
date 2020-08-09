@@ -9,6 +9,7 @@ var connectRedis=require('connect-redis')
 var Redis=require("ioredis")
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const crawlerRouter =require("./routes/crawler.route")
 const passport =require("passport");
 
 
@@ -39,6 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use("/crawler",crawlerRouter)
 app.use(passport.initialize());
 app.use(passport.session());
 // app.use(
