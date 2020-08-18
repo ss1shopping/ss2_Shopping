@@ -9,9 +9,10 @@ var connectRedis=require('connect-redis')
 var Redis=require("ioredis")
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var shoppingRouter =require("./routes/shopping.route")
 const crawlerRouter =require("./routes/crawler.route")
 const passport =require("passport");
-
+const flash = require('connect-flash');
 
 // const uri =require('./config.json');
 // const uri="mongodb+srv://manhtien465:tien1234@cluster0-vaatg.mongodb.net/test?retryWrites=true&w=majority"
@@ -41,8 +42,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use("/crawler",crawlerRouter)
+app.use("/shopping",shoppingRouter)
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 // app.use(
 //   session({ ...Session_Option,
 //     store:new RedisStore({client})

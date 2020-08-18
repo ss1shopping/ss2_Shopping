@@ -9,10 +9,24 @@ const passportJWT = passport.authenticate('jwt', { session: false });
 /* GET users listing. */
 router.route('/')
 .post(UserController.createuser)
+router.route("/login/:token")
+.get(UserController.confirmEmail)
 router.route("/login")
-.post(passport.authenticate('local',{session:false}),UserController.getFromRedis,UserController.login)
+.post((req, res, next)=> {
+  passport.authenticate('local', (err, user, info) =>{
+    if (err)  return next(err); 
+    if (!user) return res.status(400).json(info)
+    UserController.login(user,res,next)
+  })(req, res, next);
+})//UserController.getFromRedis
+router.route("/login/forgotpassword")
+.post(UserController.forgotPassword)
+router.route("/login/forgotpassword/confirm/:token")
+.post(UserController.changePassword)
 router.route("/refresh")
 .post(UserController.refreshToken)
+router.route("/revoke")
+.post(UserController.revokeRefreshtoken)
 router.route("/checktoken")
 .post(passport.authenticate("jwt",{session:false}),UserController.checkToken)
 router.route("/getdata")

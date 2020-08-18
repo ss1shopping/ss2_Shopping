@@ -4,10 +4,11 @@ var bcrypt =require("bcryptjs")
 var Schema=mongoose.Schema;
 
 var userSchema= new Schema({
-    username:{
-         type:String,
-          unique :true,
-          minlength:3,
+    firstname:{
+        type:String,
+    },
+    lastname:{
+        type:String,
     },
     password:{
         type:String,
@@ -42,7 +43,26 @@ role:{
 {
     collection: "User"
 },
+{ toJSON: { virtuals: true }, toObject: { virtuals: true }}
 );
+
+
+userSchema.virtual('payment', {
+  ref: 'payment',
+  localField: '_id',
+  foreignField: 'userid',
+  justOne: false,
+  count: true,
+  match: { userid: this._id }
+})
+userSchema.virtual('shoppingItem', {
+  ref: 'shoppingItem',
+  localField: '_id',
+  foreignField: 'userid',
+  justOne: false,
+  count: true,
+   match: { userid: this._id }
+})
 userSchema.pre("save",async function(next){
 try{
   
