@@ -15,12 +15,15 @@ const ShoppingSchema= new Schema({
     },
     city:{
         type:String
-    },
+},
     userid:{
         type:mongoose.Schema.ObjectId,
         ref:"users",
         required:true
     },
+    image:[
+     
+    ],
 
 },
 {

@@ -4,6 +4,6 @@ module.exports={
   forgottoken:"forgottoken",
     username:"xoaycodeeasy",
   password:"tien1234",
-  timeExpToken:30,    //20s
-  timeExpRefreshtoken:20  //1h
+  timeExpToken:60*60,    //20s
+  timeExpRefreshtoken:60*60*4  //1h
 }

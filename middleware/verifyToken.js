@@ -1,14 +1,22 @@
-const jwt=require("jsonwebtoken");
+
 const key =require("../config/index")
-module.exports={
-  verifyToken:(token,secretKey)=>{
-    return new Promise((resolve,reject)=>{
-      jwt.verify(token,secretKey,(err,decoded)=>{
-        if(err){
-          return reject(err)
-        }
-        resolve(decoded)
-      })
-    })
-  }
+
+const jwt =require("jsonwebtoken")
+auth=(req,res,next)=>{
+
+const token= req.headers.authorization.split(" ")[1]
+try{
+  // const token =req.headers.authorization.split(" ")[1];
+    const decoded= jwt.verify(token,key.secretkey)
+    req.users= decoded
+
+    next();
 }
+catch(e){
+    res.status(400).json({mes:"not token"})
+}
+//verify token
+
+}
+
+module.exports=auth;

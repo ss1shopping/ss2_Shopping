@@ -1,8 +1,6 @@
 const User = require("../schema/user.schema")
 const JWT = require("jsonwebtoken");
-var redis = require("redis")
-var portRedis = process.env.portRedis || 6379
-const clientredis = redis.createClient(portRedis)
+const {addRefreshTokenToList,updateRefreshTokenfromList, removeRefreshTokenfromList,clientredis}=require( "../middleware/redis")
 const key = require("../config/index")
 const {
   sendConfirmationEmail,
@@ -38,22 +36,7 @@ const refreshToken = (users, exp) => {
   )
 }
 
-function addRefreshTokenToList(refreshToken, user, accessToken, exp) {
-  clientredis.HMSET(refreshToken, {
-    "user": user,
-    "accessToken": accessToken
-  });
 
-  clientredis.expire(refreshToken, exp);
-}
-
-function updateRefreshTokenfromList(refreshToken, accessToken) {
-  clientredis.hset(refreshToken, "accessToken", accessToken, redis.print);
-}
-
-function removeRefreshTokenfromList(refreshToken) {
-  clientredis.del(refreshToken, redis.print);
-}
 
 
 
@@ -199,7 +182,7 @@ module.exports = {
     const {
       refreshToken
     } = req.body;
-    const expToken = Math.floor(Date.now()) + (config.timeExpToken)
+    const expToken = Math.floor(Date.now()) + (config.timeExpToken*1000)
 
 
     if (refreshToken) {
@@ -213,7 +196,7 @@ module.exports = {
               return res.status(401).json({
                 "statusCode": 401,
                 "error": "Unauthorized",
-                "message": err.message,
+                "msg": err.message,
               });
             }
             refreshTokenPayload = decoded;
@@ -221,11 +204,11 @@ module.exports = {
           const payload = {
             "_id": refreshTokenPayload.sub
           };
-          const accessToken = signToken(payload, config.timeExpToken);
+          const accessToken = signToken(payload, expToken);
           const response = {
             "access_token": accessToken,
-            "expires_in": expToken,
-            "token_type": "Bearer"
+            "expires_in": config.timeExpToken
+           
           };
           updateRefreshTokenfromList(refreshToken, accessToken);
           res.status(200).json(response);
