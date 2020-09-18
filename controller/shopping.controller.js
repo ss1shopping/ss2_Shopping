@@ -1,5 +1,5 @@
 const Items = require("../schema/shoppingItem.schema")
-const User = require("../schema//user.schema")
+const User = require("../schema/user.schema")
 const itemImage = require("../schema/itemImage.schema");
 const Shopping = require("../schema/shoppingItem.schema");
 const {addItemtolist,

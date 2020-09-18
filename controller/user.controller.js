@@ -100,20 +100,20 @@ module.exports = {
   },
   login: async (user, res, next) => {
     try {
-      const expToken = Math.floor(Date.now()) + (config.timeExpToken * 1000)
-      const expRefreshToken = Math.floor(Date.now()) + (config.timeExpRefreshtoken * 1000)
-      const token = signToken(user, expToken)
-      const refreshtoken = refreshToken(user, expRefreshToken)
-      const JsonUser = JSON.stringify(user)
-      addRefreshTokenToList(refreshtoken, JsonUser, token, config.timeExpRefreshtoken)
+        const expToken = Math.floor(Date.now()) + (config.timeExpToken * 1000)
+        const expRefreshToken = Math.floor(Date.now()) + (config.timeExpRefreshtoken * 1000)
+        const token = signToken(user, expToken)
+        const refreshtoken = refreshToken(user, expRefreshToken)
+        const JsonUser = JSON.stringify(user)
+        addRefreshTokenToList(refreshtoken, JsonUser, token, config.timeExpRefreshtoken)
 
-      res.status(200).json({
-        token: token,
-        user: user,
-        refreshToken: refreshtoken,
-        expToken:config.timeExpToken,
-        expRefreshToken:config.timeExpRefreshtoken
-      })
+        res.status(200).json({
+          token: token,
+          user: user,
+          refreshToken: refreshtoken,
+          expToken:config.timeExpToken,
+          expRefreshToken:config.timeExpRefreshtoken
+        })
 
     } catch (error) {
 

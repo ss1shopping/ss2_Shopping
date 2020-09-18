@@ -28,7 +28,7 @@ const fileFilter = (req, file, cb) => {
   fileFilter: fileFilter
 })
 
-router.route("/")
+router.route("/") 
 .post(passport.authenticate("jwt",{session:false}),auth,ShoppingController.addItem)
 .get(passport.authenticate("jwt",{session:false}),auth,ShoppingController.getItem)
 .put(passport.authenticate("jwt",{session:false}),ShoppingController.updateItem)
