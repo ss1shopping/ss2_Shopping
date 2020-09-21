@@ -4,29 +4,28 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose=require("mongoose")
-var session=require("express-session")
-var connectRedis=require('connect-redis')
-var Redis=require("ioredis")
+// var session=require("express-session")
+// var connectRedis=require('connect-redis')
+// var Redis=require("ioredis")
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var shoppingRouter =require("./routes/shopping.route")
-const crawlerRouter =require("./routes/crawler.route")
 const passport =require("passport");
 const flash = require('connect-flash');
 
 // const uri =require('./config.json');
 // const uri="mongodb+srv://manhtien465:tien1234@cluster0-vaatg.mongodb.net/test?retryWrites=true&w=majority"
-const Session_Option=require("./config/session")
-const Redis_option =require("./config/cache")
+// const Session_Option=require("./config/session")
+// const Redis_option =require("./config/cache")
 const MONGO_Options=require("./config/db")
 
 const connect=mongoose.connect(MONGO_Options.MONGO_URI,MONGO_Options.MONGO_Option)
 .then(()=>console.log("connect MongoDb"))
 .catch(err=>console.log(err)
 )
-const RedisStore = connectRedis(session)
-  const client = new Redis(Redis_option.Redis_Option)
-  const store = new RedisStore({ client })
+// const RedisStore = connectRedis(session)
+//   const client = new Redis(Redis_option.Redis_Option)
+//   const store = new RedisStore({ client })
 var app = express();
 
 // view engine setup
@@ -41,7 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use("/crawler",crawlerRouter)
+
 app.use("/shopping",shoppingRouter)
 app.use(passport.initialize());
 app.use(passport.session());

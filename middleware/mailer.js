@@ -3,7 +3,7 @@ const smtpTransport = require('nodemailer-smtp-transport');
 const JWT =require("jsonwebtoken")
 const key=require('../config/index')
 const config =require('../config/app')
-signToken = users => {
+ let signToken = users => {
   return JWT.sign({
     iss: 'xoaycodeesy',
     sub: users._id,
@@ -11,7 +11,7 @@ signToken = users => {
     exp: new Date().setDate(new Date().getDate() + 1) // current time + 1 day ahead
   }, key.secretkey);
 }
-signTokenforgotPassword = users => {
+ let signTokenforgotPassword = users => {
   return JWT.sign({
     iss: 'xoaycodeesy',
     sub: users._id,

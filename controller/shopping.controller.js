@@ -1,7 +1,7 @@
-const Items = require("../schema/shoppingItem.schema")
+
 const User = require("../schema/user.schema")
-const itemImage = require("../schema/itemImage.schema");
-const Shopping = require("../schema/shoppingItem.schema");
+
+const item = require("../schema/item.schema");
 const {addItemtolist,
     updateItemtoList,
     removeItemtoList,clientredis}=require("../middleware/redis")

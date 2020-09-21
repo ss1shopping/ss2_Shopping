@@ -11,16 +11,16 @@ const paymentSchema = new Schema({
         required: true,
         ref: "shoppingItem"
     },
-    price: {
-        type: String,
+    totalPrice: {
+        type: Number,
         required: true,
     },
-    quantity: {
-        type: String,
-        required: true
-    },
+   product:[ 
+ ]
 }, {
-    collection: "shoppingitem"
+    collection: "payment"
 }, { timestamps: true },
 
 )
+const payment=mongoose.model("payment",paymentSchema)
+module.exports=payment
