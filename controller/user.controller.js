@@ -36,13 +36,27 @@ const refreshToken = (users, exp) => {
   )
 }
 
-
-
-
-
-
-
 module.exports = {
+  getAlluser:async(req,res,next)=>{
+    let {
+      day,
+      month,
+      year
+  } = req.params
+  var currdatetime = new Date();
+  console.log(currdatetime);
+  day = day ? day : "02";
+  month = month ? month : "01"
+  year = year ? year : "2020"
+  let gt = `${year}-${month}-${day}`
+  let lt = `${year}-${month+1}-${day}`
+     const user=await User.find( { createdAt: {
+      $gt: new Date(gt),
+      $lt: new Date(lt)
+  }
+  })
+     
+},
   createuser: async (req, res, next) => {
     try {
       const {
@@ -71,10 +85,9 @@ module.exports = {
         email
       })
       const result = await newuser.save();
-      await sendConfirmationEmail(result)
+      // await sendConfirmationEmail(result)
       return res.json({
         user: newuser,
-        msg: "please active account in email"
       })
     } catch (error) {
       res.status(500).json({
@@ -105,7 +118,7 @@ module.exports = {
         const token = signToken(user, expToken)
         const refreshtoken = refreshToken(user, expRefreshToken)
         const JsonUser = JSON.stringify(user)
-        addRefreshTokenToList(refreshtoken, JsonUser, token, config.timeExpRefreshtoken)
+        // addRefreshTokenToList(refreshtoken, JsonUser, token, config.timeExpRefreshtoken)
 
         res.status(200).json({
           token: token,
@@ -276,5 +289,8 @@ module.exports = {
 
 
 
+  },
+  addtoCart:{
+    
   }
 }

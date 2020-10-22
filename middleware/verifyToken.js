@@ -2,18 +2,18 @@
 const key =require("../config/index")
 
 const jwt =require("jsonwebtoken")
-auth=(req,res,next)=>{
+auth=(token)=>{
 
-const token= req.headers.authorization.split(" ")[1]
+ token= token.split(" ")[1]
 try{
   // const token =req.headers.authorization.split(" ")[1];
     const decoded= jwt.verify(token,key.secretkey)
-    req.users= decoded
+   return decoded
 
-    next();
+  
 }
 catch(e){
-    res.status(400).json({mes:"not token"})
+   return ({msg:"invalid token"})
 }
 //verify token
 

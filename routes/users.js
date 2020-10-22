@@ -8,8 +8,11 @@ const passportSignIn = passport.authenticate('local', { session: false });
 const passportJWT = passport.authenticate('jwt', { session: false });
 /* GET users listing. */
 router.route('/')
+//add 
 .post(UserController.createuser)
+
 router.route("/login/:token")
+// lay data
 .get(UserController.confirmEmail)
 router.route("/login")
 .post((req, res, next)=> {

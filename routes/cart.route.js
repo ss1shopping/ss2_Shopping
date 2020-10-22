@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var multer =require('multer')
-const indexController =require("../controller/index.controller")
+const cartController =require("../controller/cart.controller")
 const storage=multer.diskStorage({
   destination:function(req,file,cb){
     cb(null,'./public/images')
@@ -26,5 +26,8 @@ const upload=multer({
 const fs= require("fs")
 /* GET home page. */
 router.route('/')
-.post(upload.single("file"),indexController.send)
+.post(cartController.addToCart)
+
+router.route("/check-out")
+.post(cartController.checkout)
 module.exports = router;

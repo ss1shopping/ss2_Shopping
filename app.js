@@ -7,9 +7,12 @@ var mongoose=require("mongoose")
 // var session=require("express-session")
 // var connectRedis=require('connect-redis')
 // var Redis=require("ioredis")
-var indexRouter = require('./routes/index');
+var cors = require('cors')
+var cartRouter = require('./routes/cart.route');
 var usersRouter = require('./routes/users');
-var shoppingRouter =require("./routes/shopping.route")
+var shoppingRouter =require("./routes/item.route")
+var TotalRouter=require("./routes/Total.route")
+var historyRouter=require("./routes/history.route")
 const passport =require("passport");
 const flash = require('connect-flash');
 
@@ -31,17 +34,18 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
+app.use(cors())
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
+app.use('/cart', cartRouter);
 app.use('/users', usersRouter);
-
-app.use("/shopping",shoppingRouter)
+app.use("/total",TotalRouter)
+app.use("/item",shoppingRouter)
+app.use("/history",historyRouter)
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());

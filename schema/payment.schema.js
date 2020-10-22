@@ -6,11 +6,7 @@ const paymentSchema = new Schema({
         required: true,
         ref: "User"
     },
-    shoppingid: {
-        type: mongoose.Schema.ObjectId,
-        required: true,
-        ref: "shoppingItem"
-    },
+    
     totalPrice: {
         type: Number,
         required: true,

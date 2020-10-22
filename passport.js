@@ -36,9 +36,9 @@ passport.use(new LocalStrategy({
                
               return done(null,false,{msg:"email or password not correct"})
             }
-            if(user.active==false){
-             return done(null,false,{msg:"please active account to login"})
-            }
+            // if(user.active==false){
+            //  return done(null,false,{msg:"please active account to login"})
+            // }
             bcrypt.compare(password,user.password, (err, isMatch) => {
        if(isMatch){
          return done(null, user)

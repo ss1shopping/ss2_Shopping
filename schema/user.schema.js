@@ -1,7 +1,7 @@
-var mongoose =require('mongoose')
+const mongoose =require('mongoose')
 var bcrypt =require("bcryptjs")
 
-var Schema=mongoose.Schema;
+const Schema=mongoose.Schema;
 
 var userSchema= new Schema({
     firstname:{
@@ -13,24 +13,26 @@ var userSchema= new Schema({
     password:{
         type:String,
         minlength:8,
-         
-   
    },
-   
    email:{
     type:String,
     unique :true 
 }, 
 active:{
     type:Boolean,
-    default:false
+    default:false,
 },
 role:{
   type:Number,
-  default:0
+  default:0,
 },
-card:[],
+  cart:{
+      type:mongoose.Schema.ObjectId,
+      ref:"cart"
+      
+  },
 history:[],
+
  
     
     day:{
@@ -57,13 +59,13 @@ userSchema.virtual('payment', {
   count: true,
   match: { userid: this._id }
 })
-userSchema.virtual('shoppingItem', {
-  ref: 'shoppingItem',
-  localField: '_id',
-  foreignField: 'userid',
+userSchema.virtual('carts', {
+  ref: 'cart',
+  localField: "cart",
+  foreignField: '_id',
   justOne: false,
   count: true,
-   match: { userid: this._id }
+   match: { userid: this.cart }
 })
 userSchema.pre("save",async function(next){
 try{

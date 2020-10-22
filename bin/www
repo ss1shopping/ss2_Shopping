@@ -13,7 +13,7 @@ var fetch =require("node-fetch")
  * Get port from environment and store in Express.
  */
 // var portRedis=process.env.portRedis || 6379
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || '4000');
 app.set('port', port);
 
 /**

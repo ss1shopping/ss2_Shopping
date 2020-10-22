@@ -1,10 +1,12 @@
 var express = require('express');
 var router = express.Router();
-const ShoppingController=require("../controller/shopping.controller");
+
 const passport =require("passport")
 const passportConf =require('../passport');
 const multer =require("multer")
-const auth =require("../middleware/verifyToken")
+const auth =require("../middleware/verifyToken");
+const shoppingController = require('../controller/item.controller');
+
 // const upload=require("../middleware/multer")
 const storage=multer.diskStorage({
   destination:function(req,file,cb){
@@ -28,14 +30,17 @@ const fileFilter = (req, file, cb) => {
   fileFilter: fileFilter
 })
 
-router.route("/") 
-.post(passport.authenticate("jwt",{session:false}),auth,ShoppingController.addItem)
-.get(passport.authenticate("jwt",{session:false}),auth,ShoppingController.getItem)
-.put(passport.authenticate("jwt",{session:false}),ShoppingController.updateItem)
-.delete(passport.authenticate("jwt",{session:false}),ShoppingController.deleteItem)
-router.route("/upload")
-.post(upload.single("file"),ShoppingController.uploadImage)
-.delete(ShoppingController.deleteImage)
+router.route("/")
+  .post(shoppingController.addItem)
+  .put(shoppingController.updateItem)
+router.route("/limit=:limit/page=:page")
+  .get(shoppingController.getItem )
 
+// router.route("/update-sold")
+//    .post(shoppingController.updateSold)
+router.route("/update-view")
+.post(shoppingController.updateView)
+router.route("/getall/day=:day/month=:month/year=:year")
+.get(shoppingController.getAllitem)
 
 module.exports =router;
