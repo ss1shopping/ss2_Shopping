@@ -1,5 +1,8 @@
 const User = require("../schema/user.schema")
 const JWT = require("jsonwebtoken");
+const  auth  = require("../middleware/verifyToken");
+const Cart =require("../schema/cart.schema")
+const Item =require("../schema/item.schema")
 const {addRefreshTokenToList,updateRefreshTokenfromList, removeRefreshTokenfromList,clientredis}=require( "../middleware/redis")
 const key = require("../config/index")
 const {
@@ -56,6 +59,27 @@ module.exports = {
   }
   })
      
+},
+getLoadingCart:async(req,res,next)=>{
+  const decode =await auth(req.headers.authorization, key.secretkey);
+ let count=0;
+  const user=await User.findById(decode.sub)
+  if(!user){
+    return res.json({msg:"user not cart"})
+  }
+  const cart =await Cart.findById(user.cart)
+  const allItem=cart.itemId
+  let displayitem=[]
+  while(count<allItem.length){
+    let item=await Item.findById(allItem[count])
+    
+    displayitem.push(item)
+    count+=1
+  }
+  
+  console.log(displayitem);
+ 
+  res.json({user,cart,itemInCart:displayitem})
 },
   createuser: async (req, res, next) => {
     try {

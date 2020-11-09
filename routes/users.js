@@ -10,7 +10,8 @@ const passportJWT = passport.authenticate('jwt', { session: false });
 router.route('/')
 //add 
 .post(UserController.createuser)
-
+router.route("/loadingcart")
+.get(UserController.getLoadingCart)
 router.route("/login/:token")
 // lay data
 .get(UserController.confirmEmail)

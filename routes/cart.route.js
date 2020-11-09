@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var multer =require('multer')
 const cartController =require("../controller/cart.controller")
+const passport =require("passport")
+const passportConf =require('../passport');
 const storage=multer.diskStorage({
   destination:function(req,file,cb){
     cb(null,'./public/images')
@@ -26,8 +28,9 @@ const upload=multer({
 const fs= require("fs")
 /* GET home page. */
 router.route('/')
-.post(cartController.addToCart)
-
+.post(passport.authenticate("jwt"),cartController.addToCart)
+router.route("/remove")
+.post(passport.authenticate("jwt",{session:false}),cartController.removeToCart)
 router.route("/check-out")
-.post(cartController.checkout)
+.post(passport.authenticate("jwt",{session:false}),cartController.checkout)
 module.exports = router;

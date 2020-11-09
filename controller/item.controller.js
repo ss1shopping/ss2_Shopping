@@ -48,7 +48,7 @@ module.exports = {
         console.log(req.params);
         let page = req.params.page ? parseInt(req.params.page) : 1
         let limit = req.params.limit ? parseInt(req.params.limit) : 3
-        console.log(page, limit);
+
         let order = req.body.order ? req.body.order : "desc";
         let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
         const startIndex = (page - 1) * limit
@@ -63,7 +63,7 @@ module.exports = {
             .exec()
 
         // results.img=await itemImage.find({shoppingid:results._id})
-        console.log(results);
+        
         res.status(200).json(results)
     },
     getAllitem: async (req, res, next) => {
@@ -74,7 +74,7 @@ module.exports = {
             year
         } = req.params
         var currdatetime = new Date();
-        console.log(currdatetime);
+       
         day = day ? day : "02";
         month = month ? month : "01"
         year = year ? year : "2020"
@@ -97,7 +97,7 @@ module.exports = {
             res.json(results)
 
         } catch (error) {
-            console.log(error);
+           
             res.status(400).json({
                 msg: "error please again"
             })
@@ -110,10 +110,19 @@ module.exports = {
             quantity,
             price,
             description,
+            image
         } = req.body
-        console.log(description, price, quantity);
+       
+    // let imagearray=[]
+    //     console.log(req.files);
+    // if(req.files){
+    //     req.files.map((index)=>{
+    //         imagearray.push(index.path)
+    //     })
+    // }
+    //     console.log(imagearray);
         if (!price) {
-            res.status(401).json({
+            res.status(400).json({
                 msg: "price not found"
             })
         }
@@ -122,10 +131,11 @@ module.exports = {
             name,
             description,
             price,
-            quantity
+            quantity,
+            image
         })
         await newitem.save()
-        res.json(newitem)
+        res.json({item:newitem,msg:"Add succesful !!!"})
     },
     updateSoldAndQuantityItem: async (arrId) => {
         let itemsupdate=[]
@@ -322,7 +332,6 @@ arrId=[...new Set(arrId)]
     },
     uploadImage: async (req, res, next) => {
         const path = req.file.path
-        console.log(path);
         try {
             if (!path) {
                 return res.status(400).json({
@@ -334,27 +343,27 @@ arrId=[...new Set(arrId)]
             }
 
 
-            const newImage = new itemImage({
-                img: path,
-                shoppingid: req.body.shoppingid
-            })
-            const result = await newImage.save()
-            const itemsupdate = await Items.findByIdAndUpdate(req.body.shoppingid, {
-                $push: {
-                    image: result._id
-                }
-            }, {
-                new: true,
-                runValidators: true,
-                useFindAndModify: false
-            })
-            console.log(itemsupdate);
-            if (!itemsupdate) {
-                return res.json({
-                    msg: "item not found"
-                })
-            }
-            res.json(result)
+            // const newImage = new itemImage({
+            //     img: path,
+            //     shoppingid: req.body.shoppingid
+            // })
+            // const result = await newImage.save()
+            // const itemsupdate = await Items.findByIdAndUpdate(req.body.shoppingid, {
+            //     $push: {
+            //         image: result._id
+            //     }
+            // }, {
+            //     new: true,
+            //     runValidators: true,
+            //     useFindAndModify: false
+            // })
+            // console.log(itemsupdate);
+            // if (!itemsupdate) {
+            //     return res.json({
+            //         msg: "item not found"
+            //     })
+            // }
+            res.json({path:req.file.path})
         } catch (error) {
             console.log(error);
             res.status(400).json({

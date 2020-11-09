@@ -14,6 +14,9 @@ const ShoppingSchema= new Schema({
         default:0,
 
     },
+    size:{
+        type:Number,
+    },
     quantity:{
         type:Number,
         default:0,

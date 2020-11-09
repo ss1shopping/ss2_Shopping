@@ -66,8 +66,50 @@ module.exports={
     useFindAndModify: false
 }
   )
-  res.json({updateCart})
+  res.json({updateCart,msg:"add successful item to cart"})
     
+  },
+  removeToCart:async(req,res,next)=>{
+         const {id}=req.body
+        let price=null
+        let TotalCost=null
+      if(!id ){
+          res.status(400).json({msg:'have some error, pease add again'})
+          return;
+        }
+        try {
+          item=await Items.findById(id)
+          console.log(item);
+         if(!item){
+           res.status(400).json({msg:"item not found"})
+           return;
+         }
+       price=item.price
+         const decode=await auth(req.headers.authorization)
+         console.log(decode);
+     const user=await Users.findById(decode.sub)
+    const oldcart=await Cart.findById(user.cart)
+    totalCost=oldcart.totalCost
+    totalCost=totalCost-price
+    console.log(totalCost);
+     const updateCart=await Cart.findByIdAndUpdate(user.cart,{
+      $pull: {
+          itemId: id
+      },
+      totalCost
+  },{
+    new: true,
+    runValidators: true,
+    useFindAndModify: false
+})
+console.log("update:",updateCart);
+  res.json({updateCart})
+       } catch (error) {
+         console.log(error);
+         res.status(400).json({msg:"error"})
+         return;
+       }
+       
   },
   checkout:async(req,res,next)=>{
     let {phone,address,id}=req.body
@@ -121,5 +163,6 @@ module.exports={
       useFindAndModify: false
      })
      res.json({result,cart,user,itemupdate})
-  }
+  },
+  
 }
