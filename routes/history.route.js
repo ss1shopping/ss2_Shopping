@@ -8,4 +8,5 @@ router.route("/limit=:limit/page=:page")
 .get(passport.authenticate("jwt",{session:false}),HistoryController.getAllHistory)
 router.route("/")
 .get(passport.authenticate("jwt",{session:false}),HistoryController.getInforHistoryofUser)
+.delete(passport.authenticate("jwt",{session:false}),HistoryController.deleteOrder)
 module.exports=router

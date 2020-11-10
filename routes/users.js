@@ -17,7 +17,7 @@ router.route("/login/:token")
 .get(UserController.confirmEmail)
 router.route("/login")
 .post((req, res, next)=> {
-  passport.authenticate('local', (err, user, info) =>{
+  passport.authenticate('local',{session:false}, (err, user, info) =>{
     if (err)  return next(err); 
     if (!user) return res.status(400).json(info)
     UserController.login(user,res,next)

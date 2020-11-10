@@ -89,6 +89,7 @@ getLoadingCart:async(req,res,next)=>{
         password,
         email
       } = req.body;
+      console.log(password);
       if (!firstname || !lastname || !password || !email) {
         return res.status(400).json({
           msg: "pls enter all field"
@@ -123,21 +124,16 @@ getLoadingCart:async(req,res,next)=>{
   },
   confirmEmail: async (req, res, next) => {
     const decode = JWT.verify(req.params.token, key.secretkey);
-    User.findById(decode.sub, (err, doc) => {
-      if (err) {
-        res.status(400).json({
-          msg: "error pls try again"
-        })
-      }
-      doc.active = true;
-      doc.save()
-    });
+   const updateUser=await User.findByIdAndUpdate(decode.sub,{active:true}, {
+    new: true,
+    runValidators: true
+})
     res.status(200).json({
       msg: "active email successful"
     })
   },
   login: async (user, res, next) => {
-    console.log(user);
+   
     try {
         const expToken = Math.floor(Date.now()) + (config.timeExpToken * 1000)
         const expRefreshToken = Math.floor(Date.now()) + (config.timeExpRefreshtoken * 1000)

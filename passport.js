@@ -25,31 +25,33 @@ passport.use(new JwtStrategy(jwtOptions, async (payload,done)=>{
     });
 }))
                                          //LOCAL STRETEGY
-passport.use(new LocalStrategy({
-    usernameField:'email'
-    
-},
-    async (email,password,done)=>{
-        try{
-            const user=await Users.findOne({email})
-            if(!user){
-               
-              return done(null,false,{msg:"email or password not correct"})
-            }
-            // if(user.active==false){
-            //  return done(null,false,{msg:"please active account to login"})
-            // }
-            bcrypt.compare(password,user.password, (err, isMatch) => {
-       if(isMatch){
-         return done(null, user)
-
-       }
-       return done(null,false,{msg:"email or password not correct"})
-    })
-            
-        }catch(error){
-           return done(null,false)
-        }
-    
-    }
-    ))
+                                        passport.use(new LocalStrategy({
+                                            usernameField:'email',
+                                            
+                                        },
+                                            async (email,password,done)=>{
+                                                try{
+                                                    const user=await Users.findOne({email})
+                                                    console.log(user);
+                                                    if(!user){
+                                                       
+                                                      return done(null,false,{msg:"email or password not correct"})
+                                                    }
+                                                    
+                                                    bcrypt.compare(password,user.password, (err, isMatch) => {
+                                               if(isMatch){
+                                                   if(user.active==false){
+                                                     return done(null,false,{msg:"please active account to login"})
+                                                    }
+                                                 return done(null, user)
+                                        
+                                               }
+                                               return done(null,false,{msg:"email or password not correct"})
+                                            })
+                                                    
+                                                }catch(error){
+                                                   return done(null,false)
+                                                }
+                                            
+                                            }
+                                            ))
