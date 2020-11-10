@@ -109,9 +109,10 @@ getLoadingCart:async(req,res,next)=>{
         email
       })
       const result = await newuser.save();
-      // await sendConfirmationEmail(result)
+       await sendConfirmationEmail(result)
       return res.json({
         user: newuser,
+        msg:"please check you mail"
       })
     } catch (error) {
       res.status(500).json({
@@ -136,6 +137,7 @@ getLoadingCart:async(req,res,next)=>{
     })
   },
   login: async (user, res, next) => {
+    console.log(user);
     try {
         const expToken = Math.floor(Date.now()) + (config.timeExpToken * 1000)
         const expRefreshToken = Math.floor(Date.now()) + (config.timeExpRefreshtoken * 1000)

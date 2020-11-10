@@ -28,7 +28,7 @@ const upload=multer({
 const fs= require("fs")
 /* GET home page. */
 router.route('/')
-.post(passport.authenticate("jwt"),cartController.addToCart)
+.post(passport.authenticate("jwt",{session:false}),cartController.addToCart)
 router.route("/remove")
 .post(passport.authenticate("jwt",{session:false}),cartController.removeToCart)
 router.route("/check-out")
