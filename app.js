@@ -15,6 +15,7 @@ var TotalRouter=require("./routes/Total.route")
 var historyRouter=require("./routes/history.route")
 const passport =require("passport");
 const flash = require('connect-flash');
+const compression=require("compression")
 
 // const uri =require('./config.json');
 // const uri="mongodb+srv://manhtien465:tien1234@cluster0-vaatg.mongodb.net/test?retryWrites=true&w=majority"
@@ -40,7 +41,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(compression({
+  level:6,
+  threshold:10*1000,
+  filter:(req,res)=>{
+    if(req.headers["x-no-compression"]){
+      return false
+    }
+    return compression.filter(req,res)
+  }
+}))
 app.use('/cart', cartRouter);
 app.use('/users', usersRouter);
 app.use("/total",TotalRouter)

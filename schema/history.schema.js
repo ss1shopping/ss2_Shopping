@@ -17,6 +17,11 @@ const HistorySchema= new Schema({
   address:{
       type:String,
       required:true,
+  },
+  status:{
+    type:String,
+    enum:["pending","shipping","finish"],
+    default:"pending"
   }
   
 }, 

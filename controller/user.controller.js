@@ -176,8 +176,10 @@ getLoadingCart:async(req,res,next)=>{
       })
     }
     const tokentoChangePassword = await sendConfirmationEmailToChangepassword(user)
+    console.log(tokentoChangePassword);
     res.status(200).json({
-      tokentoChangePassword
+      tokentoChangePassword,
+      msg:"please check your email"
     })
   },
   changePassword: async (req, res, next) => {

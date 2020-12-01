@@ -9,6 +9,7 @@ const {
 } = require("../middleware/redis")
 const JWT = require("jsonwebtoken");
 const config = require("../config/index");
+const auth =require("../middleware/verifyToken")
 const update1=async(id,item,quantity1)=>{
     let TotalSoldofItem = item.sold + parseInt(quantity1);
     let quantity = item.quantity - parseInt(quantity1);
@@ -22,6 +23,20 @@ const update1=async(id,item,quantity1)=>{
     })
     return itemsupdate
 }
+const decrease=async(id,item,quantity1)=>{
+    let TotalSoldofItem = item.sold - parseInt(quantity1);
+    let quantity = item.quantity + parseInt(quantity1);
+
+    const itemsupdate = await Items.findByIdAndUpdate(id, {
+        sold: TotalSoldofItem,
+        quantity: quantity
+    }, {
+        new: true,
+        runValidators: true
+    })
+    return itemsupdate
+}
+
 const updateSoldAndQuantityItemAsync=async(id,quantity)=>{
     const item = await Items.findById(id)
     
@@ -42,6 +57,26 @@ const updateSoldAndQuantityItemAsync=async(id,quantity)=>{
     return update
     
 }
+const decreaseSoldAndQuantityItemAsync=async(id,quantity)=>{
+    const item = await Items.findById(id)
+    
+    if (!id) {
+        // res.status(400).json({
+        //     msg: "item not found"
+        // })
+        return ({msg:"item not found"});
+        
+    }
+    if (item.quantity <= 0) {
+        
+        // res.status(400).json({msg:"not found"})
+        return ({msg:"soud out"});
+        
+    }
+    const update=await decrease(id,item,quantity)
+    return update
+    
+}
 
 module.exports = {
     getItem: async (req, res, next) => {
@@ -49,8 +84,8 @@ module.exports = {
         let page = req.params.page ? parseInt(req.params.page) : 1
         let limit = req.params.limit ? parseInt(req.params.limit) : 3
 
-        let order = req.body.order ? req.body.order : "desc";
-        let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
+        let order = req.params.order ? req.params.order : "desc";
+        let sortBy = req.params.sortBy ? req.params.sortBy : "_id";
         const startIndex = (page - 1) * limit
         const endIndex = page * limit
         const results = await Items.find()
@@ -63,7 +98,7 @@ module.exports = {
             .exec()
 
         // results.img=await itemImage.find({shoppingid:results._id})
-        
+      
         res.status(200).json(results)
     },
     getAllitem: async (req, res, next) => {
@@ -154,10 +189,24 @@ arrId=[...new Set(arrId)]
        
        return itemsupdate
        
-        
-        
-
-
+    },
+    decreaseSoldAndQuantityItem: async (arrId) => {
+        let itemsupdate=[]
+      
+var  count = {};
+arrId.forEach(function(i) { count[i] = (count[i]||0) + 1;});
+arrId=[...new Set(arrId)]
+        // const item=await Items.updateMany({_id:arrId.map((id)=>id)},{})
+       await  arrId.forEach(async(id)=>{
+         let quantity=count[id]
+     
+      const update=  await decreaseSoldAndQuantityItemAsync(id,quantity)
+      
+    itemsupdate.push(update)
+      })
+       
+       return itemsupdate
+       
     },
     
     updateSoldAndTotalIncomeTotal:async (quantity,cost)=>{
@@ -309,26 +358,28 @@ arrId=[...new Set(arrId)]
         })
     },
     deleteItem: async (req, res, next) => {
-
-        try {
-            const items = (await Items.findById(req.body.iditem))
+       console.log(req.body);
+        
+            const decode=await auth(req.headers.authorization)
+            const user=await User.findById(decode.sub)
+            console.log(user);
+            const items = await Items.findById(req.body.iditem)
+            console.log(items);
             if (!items) {
                 return res.json({
                     msg: "item not found"
                 })
             }
-            if (items.userid.toString() == req.body.user.userid.toString()) {
+           
                 await items.remove();
-            }
-            res.json({
-                msg: "remove successful"
-            })
-        } catch (error) {
-
-            return res.status(400).json({
-                msg: "not found"
-            })
-        }
+                res.json({
+                    msg: "remove successful"
+                })
+          
+            
+       
+             
+        
     },
     uploadImage: async (req, res, next) => {
         const path = req.file.path

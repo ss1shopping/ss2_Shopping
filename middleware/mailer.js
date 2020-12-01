@@ -57,15 +57,15 @@ const sendConfirmationEmail= async(users)=>{
 const sendConfirmationEmailToChangepassword= async(users)=>{
     const token=signTokenforgotPassword(users)
     //link front end will sent with token wanna recieve
-    const url=`${config.URL_FRONT_END}/login/forgotpassword/verify/${token}`  
+    const url=`${config.URL_FRONT_END}/users/login/forgotpassword/verify/${token}`  
    tranport.sendMail({
        from:"xoaycodeeasy@gmail.com",
        to:`${users.email}`,
        subject:"Confirmation Email",
        html:`Confirmation email <a href=${url}>${url}</a>`
-   }).then((res)=>{
+   }).then(()=>{
       console.log("send");
-      res({token})
+     
        
    })
    
