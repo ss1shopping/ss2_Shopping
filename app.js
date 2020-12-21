@@ -1,5 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
+
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -13,9 +14,12 @@ var usersRouter = require('./routes/users');
 var shoppingRouter =require("./routes/item.route")
 var TotalRouter=require("./routes/Total.route")
 var historyRouter=require("./routes/history.route")
+var testRouter=require("./routes/test.route")
 const passport =require("passport");
 const flash = require('connect-flash');
 const compression=require("compression")
+var CDN = require('express-simple-cdn');
+var CDN = "https://assets.preisheld.ch";
 
 // const uri =require('./config.json');
 // const uri="mongodb+srv://manhtien465:tien1234@cluster0-vaatg.mongodb.net/test?retryWrites=true&w=majority"
@@ -31,7 +35,17 @@ const connect=mongoose.connect(MONGO_Options.MONGO_URI,MONGO_Options.MONGO_Optio
 //   const client = new Redis(Redis_option.Redis_Option)
 //   const store = new RedisStore({ client })
 var app = express();
-
+app.locals.CDN = function(path, type, classes, alt) {
+  if(type == 'js') {
+      return "<script src='"+CDN+path+"' type='text/javascript'></script>";
+  } else if (type == 'css') {
+      return "<link rel='stylesheet' type='text/css' href='"+CDN+path+"'/>";
+  } else if (type == 'img') {
+      return "<img class='"+classes+"' src='"+CDN+path+"' alt='"+alt+"' />";
+  } else {
+      return "";
+  }
+};
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -56,6 +70,7 @@ app.use('/users', usersRouter);
 app.use("/total",TotalRouter)
 app.use("/item",shoppingRouter)
 app.use("/history",historyRouter)
+app.use("/test",testRouter)
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
