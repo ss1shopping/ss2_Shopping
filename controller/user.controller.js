@@ -1,9 +1,8 @@
 const User = require("../schema/user.schema")
 const JWT = require("jsonwebtoken");
-const  auth  = require("../middleware/verifyToken");
-const Cart =require("../schema/cart.schema")
-const Item =require("../schema/item.schema")
-const {addRefreshTokenToList,updateRefreshTokenfromList, removeRefreshTokenfromList,clientredis}=require( "../middleware/redis")
+const auth = require("../middleware/verifyToken");
+const { validationResult } = require('express-validator');
+const { addRefreshTokenToList, updateRefreshTokenfromList, removeRefreshTokenfromList, clientredis } = require("../middleware/redis")
 const key = require("../config/index")
 const {
   sendConfirmationEmail,
@@ -14,87 +13,101 @@ const config = require("../config/index");
 const {
   timeExpRefreshtoken
 } = require("../config/index");
+const Items = require("../schema/item.schema");
+
 const tokenList = {};
 
 const signToken = (users, exp) => {
   return JWT.sign({
-      iss: "xoaycodeeasy",
-      sub: users._id,
-      iat: new Date().getTime(), // current time
-      exp: exp, //Math.floor(Date.now() / 1000) + (60*60*12) 1h =60*60
-    },
+    iss: "xoaycodeeasy",
+    sub: users._id,
+    iat: new Date().getTime(), // current time
+    exp: exp, //Math.floor(Date.now() / 1000) + (60*60*12) 1h =60*60
+  },
     key.secretkey, {
 
-    }
+  }
   );
 };
 const refreshToken = (users, exp) => {
   return JWT.sign({
-      iss: "refreshToken",
-      sub: users._id,
-      iat: new Date().getTime(),
-      exp: exp // Math.floor(Date.now() / 1000) + (60*60*12)
-    },
+    iss: "refreshToken",
+    sub: users._id,
+    iat: new Date().getTime(),
+    exp: exp // Math.floor(Date.now() / 1000) + (60*60*12)
+  },
     key.refreshtoken
   )
 }
 
 module.exports = {
-  getAlluser:async(req,res,next)=>{
+  deleteUser: async (req, res, next) => {
+    const { id } = req.params;
+    const existUser = await User.findById(id)
+    if (existUser._id === req.user._id) {
+      res.status(404).json({ msg: "not not delete user self" })
+    }
+    if (!existUser) {
+      res.json(404).json({ msg: "user not found" })
+    }
+    await existUser.remove()
+    res.json({ msg: "success" })
+  },
+  updateUser: async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const { id, addresses } = req.body
+    delete req.body.addresses;
+    addresses.address = `${addresses.district} ${addresses.state} ${addresses.city}`
+    console.log(req.body);
+    const updateItem = await User.findByIdAndUpdate(id, {
+      $set: req.body,
+      $push: {
+        addresses
+      }
+    },
+      {
+        useFindAndModify: false,
+        new: true,
+        runValidators: true
+      }
+    )
+    if (!updateItem) {
+      return res.json({ msg: "not found" })
+    }
+    res.json(updateItem)
+  },
+  getAlluser: async (req, res, next) => {
     let {
       day,
       month,
       year
-  } = req.params
-  var currdatetime = new Date();
-  console.log(currdatetime);
-  day = day ? day : "02";
-  month = month ? month : "01"
-  year = year ? year : "2020"
-  let gt = `${year}-${month}-${day}`
-  let lt = `${year}-${month+1}-${day}`
-     const user=await User.find( { createdAt: {
-      $gt: new Date(gt),
-      $lt: new Date(lt)
-  }
-  })
-     
-},
-getLoadingCart:async(req,res,next)=>{
-  const decode =await auth(req.headers.authorization, key.secretkey);
- let count=0;
-  const user=await User.findById(decode.sub)
-  if(!user){
-    return res.json({msg:"user not cart"})
-  }
-  const cart =await Cart.findById(user.cart)
-  const allItem=cart.itemId
-  let displayitem=[]
-  while(count<allItem.length){
-    let item=await Item.findById(allItem[count])
-    
-    displayitem.push(item)
-    count+=1
-  }
-  
-  console.log(displayitem);
- 
-  res.json({user,cart,itemInCart:displayitem})
-},
-  createuser: async (req, res, next) => {
-    try {
-      const {
-        firstname,
-        lastname,
-        password,
-        email
-      } = req.body;
-      console.log(password);
-      if (!firstname || !lastname || !password || !email) {
-        return res.status(400).json({
-          msg: "pls enter all field"
-        })
+    } = req.params
+    var currdatetime = new Date();
+    console.log(currdatetime);
+    day = day ? day : "02";
+    month = month ? month : "01"
+    year = year ? year : "2020"
+    let gt = `${year}-${month}-${day}`
+    let lt = `${year}-${month + 1}-${day}`
+    const user = await User.find({
+      createdAt: {
+        $gt: new Date(gt),
+        $lt: new Date(lt)
       }
+    })
+
+  },
+  createuser: async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    try {
+      const { email } = req.body;
+
       const user = await User.findOne({
         email: email
       })
@@ -104,16 +117,13 @@ getLoadingCart:async(req,res,next)=>{
         })
       }
       var newuser = new User({
-        firstname,
-        lastname,
-        password,
-        email
+        ...req.body
       })
       const result = await newuser.save();
-       await sendConfirmationEmail(result)
+      await sendConfirmationEmail(result)
       return res.json({
         user: newuser,
-        msg:"please check you mail"
+        msg: "please check you mail"
       })
     } catch (error) {
       res.status(500).json({
@@ -124,31 +134,31 @@ getLoadingCart:async(req,res,next)=>{
   },
   confirmEmail: async (req, res, next) => {
     const decode = JWT.verify(req.params.token, key.secretkey);
-   const updateUser=await User.findByIdAndUpdate(decode.sub,{active:true}, {
-    new: true,
-    runValidators: true
-})
+    const updateUser = await User.findByIdAndUpdate(decode.sub, { active: true }, {
+      new: true,
+      runValidators: true
+    })
     res.status(200).json({
       msg: "active email successful"
     })
   },
   login: async (user, res, next) => {
-   
-    try {
-        const expToken = Math.floor(Date.now()) + (config.timeExpToken * 1000)
-        const expRefreshToken = Math.floor(Date.now()) + (config.timeExpRefreshtoken * 1000)
-        const token = signToken(user, expToken)
-        const refreshtoken = refreshToken(user, expRefreshToken)
-        const JsonUser = JSON.stringify(user)
-        // addRefreshTokenToList(refreshtoken, JsonUser, token, config.timeExpRefreshtoken)
 
-        res.status(200).json({
-          token: token,
-          user: user,
-          refreshToken: refreshtoken,
-          expToken:config.timeExpToken,
-          expRefreshToken:config.timeExpRefreshtoken
-        })
+    try {
+      const expToken = Math.floor(Date.now()) + (config.timeExpToken * 1000)
+      const expRefreshToken = Math.floor(Date.now()) + (config.timeExpRefreshtoken * 1000)
+      const token = signToken(user, expToken)
+      const refreshtoken = refreshToken(user, expRefreshToken)
+      const JsonUser = JSON.stringify(user)
+      // addRefreshTokenToList(refreshtoken, JsonUser, token, config.timeExpRefreshtoken)
+
+      res.status(200).json({
+        token: token,
+        user: user,
+        refreshToken: refreshtoken,
+        expToken: config.timeExpToken,
+        expRefreshToken: config.timeExpRefreshtoken
+      })
 
     } catch (error) {
 
@@ -175,11 +185,12 @@ getLoadingCart:async(req,res,next)=>{
         msg: "email not found"
       })
     }
+    console.log(user);
     const tokentoChangePassword = await sendConfirmationEmailToChangepassword(user)
     console.log(tokentoChangePassword);
     res.status(200).json({
       tokentoChangePassword,
-      msg:"please check your email"
+      msg: "please check your email"
     })
   },
   changePassword: async (req, res, next) => {
@@ -215,106 +226,103 @@ getLoadingCart:async(req,res,next)=>{
       msg: "password is change"
     })
   },
-  refreshToken: async (req, res, next) => {
-    const {
-      refreshToken
-    } = req.body;
-    const expToken = Math.floor(Date.now()) + (config.timeExpToken*1000)
+
+  // refreshToken: async (req, res, next) => {
+  //   const {
+  //     refreshToken
+  //   } = req.body;
+  //   const expToken = Math.floor(Date.now()) + (config.timeExpToken * 1000)
 
 
-    if (refreshToken) {
-      clientredis.exists(refreshToken, function (err, exists) {
-        if (exists) {
-          let refreshTokenPayload;
+  //   if (refreshToken) {
+  //     clientredis.exists(refreshToken, function (err, exists) {
+  //       if (exists) {
+  //         let refreshTokenPayload;
 
-          JWT.verify(refreshToken, config.refreshtoken, function (err, decoded) {
-            if (err) {
-              console.log("el error es: " + err);
-              return res.status(401).json({
-                "statusCode": 401,
-                "error": "Unauthorized",
-                "msg": err.message,
-              });
-            }
-            refreshTokenPayload = decoded;
-          });
-          const payload = {
-            "_id": refreshTokenPayload.sub
-          };
-          const accessToken = signToken(payload, expToken);
-          const response = {
-            "access_token": accessToken,
-            "expires_in": config.timeExpToken
-           
-          };
-          updateRefreshTokenfromList(refreshToken, accessToken);
-          res.status(200).json(response);
-        } else {
-          res.status(401).send({
-            "statusCode": 401,
-            "error": "Unauthorized",
-            "message": "The refresh token does not exist",
-          });
-        }
-      });
-    } else {
-      res.status(401).send({
-        "statusCode": 400,
-        "error": "Bad Request",
-        "message": "The required parameters were not sent in the request",
-      });
-    }
-  },
-  revokeRefreshtoken: (req, res, next) => {
-    const {
-      refreshToken
-    } = req.body;
-    if (refreshToken) {
-      client.exists(postData.refreshToken, function (err, exists) {
-        if (exists) {
-          console.log('res vale: ' + exists);
-          removeRefreshTokenfromList(refreshToken);
-          res.sendStatus(204);
-        } else {
-          console.log('The refresh token does not exist');
-          res.status(401).send({
-            "statusCode": 401,
-            "error": "Unauthorized",
-            "message": "The refresh token does not exist",
-          });
-        }
-      });
-    } else {
-      res.status(401).send({
-        "statusCode": 400,
-        "error": "Bad Request",
-        "message": "The required parameters were not sent in the request",
-      });
-    }
-  },
+  //         JWT.verify(refreshToken, config.refreshtoken, function (err, decoded) {
+  //           if (err) {
+  //             console.log("el error es: " + err);
+  //             return res.status(401).json({
+  //               "statusCode": 401,
+  //               "error": "Unauthorized",
+  //               "msg": err.message,
+  //             });
+  //           }
+  //           refreshTokenPayload = decoded;
+  //         });
+  //         const payload = {
+  //           "_id": refreshTokenPayload.sub
+  //         };
+  //         const accessToken = signToken(payload, expToken);
+  //         const response = {
+  //           "access_token": accessToken,
+  //           "expires_in": config.timeExpToken
+
+  //         };
+  //         updateRefreshTokenfromList(refreshToken, accessToken);
+  //         res.status(200).json(response);
+  //       } else {
+  //         res.status(401).send({
+  //           "statusCode": 401,
+  //           "error": "Unauthorized",
+  //           "message": "The refresh token does not exist",
+  //         });
+  //       }
+  //     });
+  //   } else {
+  //     res.status(401).send({
+  //       "statusCode": 400,
+  //       "error": "Bad Request",
+  //       "message": "The required parameters were not sent in the request",
+  //     });
+  //   }
+  // },
+  // revokeRefreshtoken: (req, res, next) => {
+  //   const {
+  //     refreshToken
+  //   } = req.body;
+  //   if (refreshToken) {
+  //     client.exists(postData.refreshToken, function (err, exists) {
+  //       if (exists) {
+  //         console.log('res vale: ' + exists);
+  //         removeRefreshTokenfromList(refreshToken);
+  //         res.sendStatus(204);
+  //       } else {
+  //         console.log('The refresh token does not exist');
+  //         res.status(401).send({
+  //           "statusCode": 401,
+  //           "error": "Unauthorized",
+  //           "message": "The refresh token does not exist",
+  //         });
+  //       }
+  //     });
+  //   } else {
+  //     res.status(401).send({
+  //       "statusCode": 400,
+  //       "error": "Bad Request",
+  //       "message": "The required parameters were not sent in the request",
+  //     });
+  //   }
+  // },
   checkToken: async (req, res, next) => {
-    console.log("checkToken xem the nao");
+    console.log(req);
     res.status(200).json({
       mes: "ok"
     })
-
   },
-  getFromRedis: async (req, res, next) => {
-    clientredis.get(req.body.email, (err, data) => {
-      if (err) throw err;
-      if (data !== null || undefined) {
-        res.status(200).json({
-          refreshToken: data
-        })
-      } else {
-        next()
-      }
-    })
+  // getFromRedis: async (req, res, next) => {
+  //   clientredis.get(req.body.email, (err, data) => {
+  //     if (err) throw err;
+  //     if (data !== null || undefined) {
+  //       res.status(200).json({
+  //         refreshToken: data
+  //       })
+  //     } else {
+  //       next()
+  //     }
+  //   })
 
 
 
-  },
-  addtoCart:{
-    
-  }
+  // },
 }

@@ -1,52 +1,38 @@
-const mongoose =require("mongoose");
+const mongoose = require("mongoose");
 
-const Schema=mongoose.Schema
+const Schema = mongoose.Schema
 // const uniqueValidator = require('mongoose-unique-validator')
-const BookSchema= new Schema({
-  title:{
-    type:String,
-    required:[true,"ddas"],
-    
+const CategorySchema = new Schema({
+  name: {
+    type: String,
+    required: true
   },
-  pages:{
-    type:Number,
-    required:true,
-    
-  }
-}, 
-{
-    collection: "category"
-}, { timestamps: true },
+  image: {
+    type: String,
+    required: false,
+  },
+  icon: {
+    type: String,
+    //default icon
+  },
+  isRoot: {
+    type: Boolean,
+    default: false,
+  },
+  desc: {
+    type: String,
+  },
+  path: {
+    type: String
+  },
+  children: [{
+    type: Schema.Types.ObjectId
+  }]
+
+
+}, { timestamps: true }
 
 )
-const AuthorSchema=new Schema({
-  name:{
-    type:String,
-    required:true,
-  },
-  age:{
-    type:Number,
-    select:false
-  },
-  attribute:{
-      type:Object,
-      size:{
-        type:Number || String,
-        optional:true,
-        select:false
-      },
-      power:{
-        type:String || Number,
-        optional:true,
-        select:false,
-      }
-  },
-  book:{
-    type:BookSchema,
-    required:true,
-    select:false
-  }
-})
 // AuthorSchema.plugin(uniqueValidator, { message: '{PATH} already exists.' })
-const authorSchema=mongoose.model("AuthorSchema",AuthorSchema)
-module.exports=authorSchema
+const Categories = mongoose.model("Categories", CategorySchema)
+module.exports = Categories

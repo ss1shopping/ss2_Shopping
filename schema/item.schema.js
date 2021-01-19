@@ -1,50 +1,53 @@
 
-const mongoose =require("mongoose");
-const Schema=mongoose.Schema
-const ShoppingSchema= new Schema({
-    name:{
-   type:String,
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema
+const { updateIfCurrentPlugin } = require('mongoose-update-if-current');
+const ItemSchema = new Schema({
+    name: {
+        type: String,
+        required: true
     },
-  
-    description:{
-          type:String,
+    priceMin: {
+        type: Number,
+        required: true
     },
-    price:{
-        type:Number,
-        default:0,
+    priceMax: {
+        type: Number
+    },
+    discount: {
+        type: Number
+    },
+    desc: {
+        type: String,
+        required: true
+    },
+    category: [{
+        type: Object,
+        //required:true
+    }],
+    sold: {
+        type: Number,
+        required: false,
+    },
+    models: [{ type: Schema.Types.ObjectId, ref: "models" }],
+    tier_variations: [{
+        option: [{
+            type: String
+        }],
+        images: [{ type: String }],
+        name: {
+            type: String
+        }
+    }]
 
-    },
-    size:{
-        type:Number,
-    },
-    quantity:{
-        type:Number,
-        default:0,
-    },
-    sold:{
-        type:Number,
-        default:0
-    },
-    view:{
-        type:Number,
-        default:0,
-    },
-    image:[
-     
-    ],
-    day:{
-        type:Date,
-        default: Date.now
-    },
 
 },
-{
-    timestamps:true,
-},
-{
-collection:"item"    
-},
+    { timestamps: true },
+
 )
 
-const item=mongoose.model("item",ShoppingSchema)
-module.exports=item
+ItemSchema.set('versionKey', 'version');
+ItemSchema.plugin(updateIfCurrentPlugin);
+
+const Items = mongoose.model("items", ItemSchema)
+module.exports = Items

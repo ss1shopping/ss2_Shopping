@@ -35,6 +35,7 @@ module.exports={
     })
     const decode=await auth(req.headers.authorization)
      const user=await Users.findById(decode.sub)
+     console.log("cart",user);
     if(!user.cart){
       const result= await newcart.save()
       console.log(result);
