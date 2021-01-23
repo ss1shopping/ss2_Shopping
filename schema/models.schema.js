@@ -1,9 +1,17 @@
+
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema
 const ModelsSchema = new Schema({
+  itemId: {
+    type: Schema.Types.ObjectId,
+    ref: "items"
+  },
   name: {
     type: String
   },
   status: {
-    type: Number
+    type: Number,
+    default: 0
   },
   normal_stock: {
     type: Number
@@ -21,7 +29,8 @@ const ModelsSchema = new Schema({
     type: Number
   },
   sold: {
-    type: Number
+    type: Number,
+    default: 0
   },
   price_stocks: [{
     price: {
@@ -57,7 +66,6 @@ const ModelsSchema = new Schema({
 
 )
 
-ModelsSchema.set('versionKey', 'version');
-ModelsSchema.plugin(updateIfCurrentPlugin);
+
 const Models = mongoose.model("models", ModelsSchema)
-export { Models };
+module.exports = Models;

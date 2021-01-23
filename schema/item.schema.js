@@ -19,11 +19,11 @@ const ItemSchema = new Schema({
     },
     desc: {
         type: String,
-        required: true
+
     },
     category: [{
-        type: Object,
-        //required:true
+        type: Schema.Types.ObjectId,
+        ref: "Categories"
     }],
     sold: {
         type: Number,
@@ -31,13 +31,8 @@ const ItemSchema = new Schema({
     },
     models: [{ type: Schema.Types.ObjectId, ref: "models" }],
     tier_variations: [{
-        option: [{
-            type: String
-        }],
-        images: [{ type: String }],
-        name: {
-            type: String
-        }
+        type: Schema.Types.ObjectId,
+        ref: "tier_variations"
     }]
 
 

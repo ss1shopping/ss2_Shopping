@@ -79,68 +79,43 @@ const decreaseSoldAndQuantityItemAsync = async (id, quantity) => {
 }
 
 module.exports = {
-    getItem: async (req, res, next) => {
-        let page = req.params.page ? parseInt(req.params.page) : 1
-        let limit = req.params.limit ? parseInt(req.params.limit) : 3
+    /**
+     * @URL /item/get
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     */
+    getItems: async (req, res, next) => {
 
-        let order = req.params.order ? req.params.order : "desc";
-        let sortBy = req.params.sortBy ? req.params.sortBy : "_id";
-        const startIndex = (page - 1) * limit
-        const endIndex = page * limit
-        const results = await Items.find()
-            .sort([
-                [sortBy, order]
-            ])
-            // .populate({path:"image"})
-            .limit(limit) // loading 3 trang xong call redis
-            .skip(startIndex)
-            .exec()
-
-        // results.img=await itemImage.find({shoppingid:results._id})
-
-        res.status(200).json(results)
+        res.status(200).json(res.advancedResults)
     },
-    getAllitem: async (req, res, next) => {
-        console.log(req.params);
-        let {
-            day,
-            month,
-            year
-        } = req.params
-        var currdatetime = new Date();
-
-        day = day ? day : "02";
-        month = month ? month : "01"
-        year = year ? year : "2020"
-        let gt = `${year}-${month}-${day - 1}`
-        let lt = `${year}-${month}-${day + 1}`
-        let TotalView = 0;
-        let TotalPrice = 0;
-        let TotalSold = 0;
-        try {
-            //gt:new Date(date) // tru 1 ngay vi greater than
-            //lt new Date(date) //cong 1 ngay vi less than
-            const results = await Items.find({
-                createdAt: {
-                    $gt: new Date(gt),
-                    $lt: new Date(lt)
-                }
-            })
-                .exec()
-
-            res.json(results)
-
-        } catch (error) {
-
-            res.status(400).json({
-                msg: "error please again"
-            })
-        }
-
+    /**
+     * @URL /item/get-one/:id
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     */
+    getone: async (req, res, next) => {
+        const { id } = req.params
+        console.log(id);
+        const item = await Items.findById(id).populate("models").populate("category").populate("tier_variations")
+        res.json(item)
     },
+
+    /**
+    * @URL /item/create
+    * @method post
+    * @param {name,priceMin,priceMax,discount,sold,category}
+    */
     addItem: async (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
         const { priceMin, priceMax } = req.body
-
+        if (priceMin > priceMax) {
+            return res.json({ msg: "price min not > maxPrice" })
+        }
         const newitem = new Items({
             ...req.body
         })
@@ -169,113 +144,56 @@ module.exports = {
 
 
     updateItem: async (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
         let {
-            id, priceMin, priceMax, tier_variations
+            id, priceMin, priceMax
         } = req.body
         if (priceMax < priceMin) {
             return res.json({ msg: "priceMax must greater than pmin price" })
         }
-        const exitItem = await Items.findById(id)
-        const existtier_variations = exitItem.tier_variations.find(function (element) {
 
-            if (element.name === tier_variations.name) {
-                return element;
+        const itemsupdate = await Items.findByIdAndUpdate(id,
+            {
+                $set: req.body,
             }
-        });
-        existtier_variations.option.push(tier_variations.option)
-        existtier_variations.option.push(tier_variations.image)
-        delete req.body.tier_variations;
-        if (existtier_variations) {
-            const itemsupdate = await Items.findByIdAndUpdate(id,
-                {
-                    $set: req.body,
-                    //    tier_variat
-                }
-                , {
-                    useFindAndModify: false,
-                    new: true,
-                    runValidators: true
-                })
-            if (!itemsupdate) {
-                return res.json({
-                    msg: "item not  found"
-                })
-            }
-
-
+            , {
+                useFindAndModify: false,
+                new: true,
+                runValidators: true
+            })
+        if (!itemsupdate) {
+            return res.json({
+                msg: "item not  found"
+            })
         }
         res.json({
             itemsupdate
         })
     },
     deleteItem: async (req, res, next) => {
-        console.log(req.body);
 
-        const decode = await auth(req.headers.authorization)
-        const user = await User.findById(decode.sub)
-        console.log(user);
-        const items = await Items.findById(req.body.iditem)
-        console.log(items);
-        if (!items) {
-            return res.json({
-                msg: "item not found"
-            })
-        }
-
-        await items.remove();
-        res.json({
-            msg: "remove successful"
-        })
-
-
-
-
-
-    },
-    uploadImage: async (req, res, next) => {
-        const path = req.file.path
+        const { id } = req.params
         try {
-            if (!path) {
-                return res.status(400).json({
-                    msg: "image null"
+            const items = await Items.findById(id)
+            if (!items) {
+                return res.json({
+                    msg: "item not found"
                 })
             }
-            console.log(path);
-            const image = {
-                "path": path
-            }
 
-
-            // const newImage = new itemImage({
-            //     img: path,
-            //     shoppingid: req.body.shoppingid
-            // })
-            // const result = await newImage.save()
-            // const itemsupdate = await Items.findByIdAndUpdate(req.body.shoppingid, {
-            //     $push: {
-            //         image: result._id
-            //     }
-            // }, {
-            //     new: true,
-            //     runValidators: true,
-            //     useFindAndModify: false
-            // })
-            // console.log(itemsupdate);
-            // if (!itemsupdate) {
-            //     return res.json({
-            //         msg: "item not found"
-            //     })
-            // }
-            res.json({ path: req.file.path })
-        } catch (error) {
-            console.log(error);
-            res.status(400).json({
-                msg: "no found"
+            await items.remove();
+            res.json({
+                msg: "remove successful"
             })
+
+        } catch (error) {
+            res.json({ msg: "some problem" })
         }
-
-
     },
+
     deleteImage: async (req, res, next) => {
         const {
             id
