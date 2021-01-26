@@ -33,7 +33,11 @@ const ItemSchema = new Schema({
     tier_variations: [{
         type: Schema.Types.ObjectId,
         ref: "tier_variations"
-    }]
+    }],
+    shopId: {
+        type: Schema.Types.ObjectId,
+        ref: "shops"
+    }
 
 
 },

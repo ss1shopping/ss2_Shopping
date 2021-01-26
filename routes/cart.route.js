@@ -29,10 +29,11 @@ const upload = multer({
 const fs = require("fs")
 /* GET home page. */
 router.post('/add', [
-  body('productId').notEmpty().isString().withMessage('you must supply productId'),
-  body('number').notEmpty().isInt({ min: 1 }).withMessage('You must supply quantity positive ')
+  body('itemId').notEmpty().isString().withMessage('you must supply productId'),
+  body('number').notEmpty().isInt({ min: 1 }).withMessage('You must supply quantity positive '),
+  body("modelId").notEmpty().isString().withMessage("model not is empty")
 ],
-  cartController.addToCart)
+  passport.authenticate("jwt", { session: false }), cartController.addToCart)
 
 
 router.put("/cart/remove/:carts"
@@ -51,5 +52,5 @@ router.put("/update", [
 )
 
 router.get("/get",
-  cartController.getCart)
+  passport.authenticate("jwt", { session: false }), cartController.getCart)
 module.exports = router;

@@ -10,73 +10,7 @@ const {
 const JWT = require("jsonwebtoken");
 const config = require("../config/index");
 const auth = require("../middleware/verifyToken")
-const update1 = async (id, item, quantity1) => {
-    let TotalSoldofItem = item.sold + parseInt(quantity1);
-    let quantity = item.quantity - parseInt(quantity1);
-
-    const itemsupdate = await Items.findByIdAndUpdate(id, {
-        sold: TotalSoldofItem,
-        quantity: quantity
-    }, {
-        new: true,
-        runValidators: true
-    })
-    return itemsupdate
-}
-const decrease = async (id, item, quantity1) => {
-    let TotalSoldofItem = item.sold - parseInt(quantity1);
-    let quantity = item.quantity + parseInt(quantity1);
-
-    const itemsupdate = await Items.findByIdAndUpdate(id, {
-        sold: TotalSoldofItem,
-        quantity: quantity
-    }, {
-        new: true,
-        runValidators: true
-    })
-    return itemsupdate
-}
-
-const updateSoldAndQuantityItemAsync = async (id, quantity) => {
-    const item = await Items.findById(id)
-
-    if (!id) {
-        // res.status(400).json({
-        //     msg: "item not found"
-        // })
-        return ({ msg: "item not found" });
-
-    }
-    if (item.quantity <= 0) {
-
-        // res.status(400).json({msg:"not found"})
-        return ({ msg: "soud out" });
-
-    }
-    const update = await update1(id, item, quantity)
-    return update
-
-}
-const decreaseSoldAndQuantityItemAsync = async (id, quantity) => {
-    const item = await Items.findById(id)
-
-    if (!id) {
-        // res.status(400).json({
-        //     msg: "item not found"
-        // })
-        return ({ msg: "item not found" });
-
-    }
-    if (item.quantity <= 0) {
-
-        // res.status(400).json({msg:"not found"})
-        return ({ msg: "soud out" });
-
-    }
-    const update = await decrease(id, item, quantity)
-    return update
-
-}
+const { validationResult } = require("express-validator")
 
 module.exports = {
     /**
@@ -116,6 +50,7 @@ module.exports = {
         if (priceMin > priceMax) {
             return res.json({ msg: "price min not > maxPrice" })
         }
+        req.body.shopId = req.user.shopId
         const newitem = new Items({
             ...req.body
         })
@@ -123,24 +58,24 @@ module.exports = {
         res.json({ item: newitem, msg: "Add succesful !!!" })
     },
 
-    decreaseSoldAndQuantityItem: async (arrId) => {
-        let itemsupdate = []
+    // decreaseSoldAndQuantityItem: async (arrId) => {
+    //     let itemsupdate = []
 
-        var count = {};
-        arrId.forEach(function (i) { count[i] = (count[i] || 0) + 1; });
-        arrId = [...new Set(arrId)]
-        // const item=await Items.updateMany({_id:arrId.map((id)=>id)},{})
-        await arrId.forEach(async (id) => {
-            let quantity = count[id]
+    //     var count = {};
+    //     arrId.forEach(function (i) { count[i] = (count[i] || 0) + 1; });
+    //     arrId = [...new Set(arrId)]
+    //     // const item=await Items.updateMany({_id:arrId.map((id)=>id)},{})
+    //     await arrId.forEach(async (id) => {
+    //         let quantity = count[id]
 
-            const update = await decreaseSoldAndQuantityItemAsync(id, quantity)
+    //         const update = await decreaseSoldAndQuantityItemAsync(id, quantity)
 
-            itemsupdate.push(update)
-        })
+    //         itemsupdate.push(update)
+    //     })
 
-        return itemsupdate
+    //     return itemsupdate
 
-    },
+    // },
 
 
     updateItem: async (req, res, next) => {

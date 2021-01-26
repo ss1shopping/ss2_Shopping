@@ -11,13 +11,14 @@ var mongoose = require("mongoose")
 var cors = require('cors')
 var cartRouter = require('./routes/cart.route');
 var usersRouter = require('./routes/users');
-var shoppingRouter = require("./routes/item.route")
+var itemRouter = require("./routes/item.route")
 var TotalRouter = require("./routes/Total.route")
 var orderRouter = require("./routes/order.route")
 var testRouter = require("./routes/test.route")
 var tierRouter = require("./routes/tier-variations.route")
 var modelsRouter = require("./routes/models.routes")
 var categoryRouter = require("./routes/category.routes")
+var shopRouter = require("./routes/shop.routes")
 const passport = require("passport");
 const flash = require('connect-flash');
 const compression = require("compression")
@@ -74,12 +75,13 @@ app.use(compression({
 app.use('/cart', cartRouter);
 app.use('/users', usersRouter);
 app.use("/total", TotalRouter)
-app.use("/item", shoppingRouter)
+app.use("/item", itemRouter)
 app.use("/order", orderRouter)
 app.use("/test", testRouter)
 app.use("/tier-variation", tierRouter)
 app.use("/model", modelsRouter)
 app.use("/category", categoryRouter)
+app.use('/shop', shopRouter)
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());

@@ -30,12 +30,12 @@ router.put("/update",
   [
 
     body("id").notEmpty().isString().withMessage("id must be string "),
-    body('name').notEmpty().isString().withMessage('you must supply validate name'),
+    body('name').optional().isString().withMessage('you must supply validate name'),
     body("priceMin").optional().isInt({ min: 1 }).withMessage("you must supply validate  minPrice "),
     body("priceMax").optional().isInt({ min: 1 }).withMessage("you must supply validate maxPrice"),
     body("discount").optional().isString().withMessage("you must supply validate discount"),
     body("sold").optional().isInt({ min: 0 }).withMessage("number sold have problem"),
-    body("category").notEmpty().isArray().withMessage("you must supply category"),
+    body("category").optional().isArray().withMessage("you must supply category"),
 
   ],
   //passport.authenticate("jwt", { session: false }), authorize("SHOPOWNER"),

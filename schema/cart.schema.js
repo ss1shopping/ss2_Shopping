@@ -21,6 +21,10 @@ const CartSchema = new Schema({
     modelId: {
         type: Schema.Types.ObjectId,
         required: false   //change required true later
+    },
+    shopId: {
+        type: Schema.Types.ObjectId,
+        ref: "shops"
     }
 }, { timestamps: true })
 const cart = mongoose.model("carts", CartSchema)

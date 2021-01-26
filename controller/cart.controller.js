@@ -1,5 +1,6 @@
 const fs = require("fs");
 const Cart = require("../schema/cart.schema");
+const Items = require("../schema/item.schema");
 // const Users = require("../schema/user.schema")
 // const History = require("../schema/order.schema");
 // const itemController = require("./item.controller");
@@ -15,7 +16,8 @@ module.exports = {
     }
     //userId the replace with decode from token
     const userId = req.user._id  //req.currentUser._id
-    const productExist = await Product.findOne({ _id: itemId, "models._id": modelId }) //will find more model in here
+
+    const productExist = await Items.findOne({ _id: itemId }).populate("models") //will find more model in here
     if (!productExist) {
       return res.status(400).json('product not exist');
     }
@@ -26,7 +28,7 @@ module.exports = {
       }
     });
     //check whether the product is in the cart or not
-    const existProductIncart = await Cart.findOne({ itemId, userId })
+    const existProductIncart = await Cart.findOne({ modelId, userId })
     if (existProductIncart) {
       let newnumber = existProductIncart.number + number
       let totalPrice = (existProductIncart.totalPrice / existProductIncart.number) * newnumber
@@ -42,15 +44,20 @@ module.exports = {
       return res.json(increNumber)
 
     } else {
-      let totalPrice = (model.price * number)
-      if (totalPrice < 0) {
-        return res.status(400).json('totalPrice must be positive');
+      try {
+        let totalPrice = (model.price * number)
+        if (totalPrice < 0) {
+          return res.status(400).json('totalPrice must be positive');
+        }
+        const newCart = new Cart({
+          userId, number, itemId, totalPrice, modelId, shopId: productExist.shopId
+        })
+        await newCart.save()
+        return res.json(newCart)
+
+      } catch (error) {
+        res.status(400).json({ msg: error })
       }
-      const newCart = new Cart({
-        userId, number, itemId, totalPrice, modelId
-      })
-      await newCart.save()
-      return res.json(newCart)
 
     }
   },
@@ -69,13 +76,14 @@ module.exports = {
 
     const existCart = await Cart.find({ userId })
     if (!existCart) {
-      throw new BadRequestError("Not Found")
+      return res.status(400).json("Not Found")
     }
     const deleteCart = await Cart.deleteMany({ userId })
 
     res.json({ msg: "successful", infor: deleteCart })
   },
   getCart: async (req, res, next) => {
+
     const userId = req.user._id //rreq.currentUser._id
     const cart = await Cart.find({ userId })
     res.json(cart)
@@ -85,12 +93,12 @@ module.exports = {
     const userId = req.user._id
     const { id, number } = req.body
     if (number < 0) {
-      throw new BadRequestError("number must be greater than 0")
+      return res.status(400).json("number must be greater than 0")
     }
     const existCart = await Cart.findById(id).populate("itemId")
 
     if (!existCart) {
-      throw new BadRequestError("cart not found")
+      return res.status(400).json("cart not found")
     }
     const models = existCart.itemId.models
     const model = models.find(function (element) {

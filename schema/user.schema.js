@@ -20,8 +20,9 @@ var userSchema = new Schema({
         type: String,
         unique: true
     },
-    shopName: {
-        type: String
+    shopId: {
+        type: Schema.Types.ObjectId,
+        ref: "shops"
     },
     userInvited: {
         type: Schema.Types.ObjectId,
