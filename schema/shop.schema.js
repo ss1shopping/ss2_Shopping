@@ -47,6 +47,7 @@ const ShopSchema = new Schema({
 },
   { timestamps: true },
 )
+ShopSchema.index({ name: 'text', description: 'text' })
 // ShopSchema.set('versionKey', 'version');
 // ShopSchema.plugin(updateIfCurrentPlugin);
 const Shops = mongoose.model("shops", ShopSchema)

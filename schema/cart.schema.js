@@ -20,7 +20,8 @@ const CartSchema = new Schema({
     },
     modelId: {
         type: Schema.Types.ObjectId,
-        required: false   //change required true later
+        required: false,
+        ref: "models"   //change required true later
     },
     shopId: {
         type: Schema.Types.ObjectId,

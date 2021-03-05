@@ -53,8 +53,7 @@ var userSchema = new Schema({
     },
     isBan: {
         type: Boolean,
-        default: false,
-        select: false
+        default: false
     },
     avatar: {
         type: String
@@ -91,7 +90,7 @@ var userSchema = new Schema({
     { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
-
+userSchema.index({ email: 'text', addresses: 'text', phoneNumber: 'text' })
 userSchema.pre("save", async function (next) {
     try {
 

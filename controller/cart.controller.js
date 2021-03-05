@@ -85,7 +85,8 @@ module.exports = {
   getCart: async (req, res, next) => {
 
     const userId = req.user._id //rreq.currentUser._id
-    const cart = await Cart.find({ userId })
+    const cart = await Cart.find({ userId }).populate("itemId")
+      .populate("modelId").populate("shopId")
     res.json(cart)
   },
   updateCart: async (req, res, next) => {

@@ -120,7 +120,8 @@ module.exports = {
         // let status = req.params.status ? req.params.status : "pending"
         // const startIndex = (page - 1) * limit
         //const history = await Orders.find({ status }).sort({ "_id": -1 }).limit(limit).skip(startIndex).populate("userId")
-
+        // const result = await Orders.find().populate("detail.itemId")
+        // res.json(result)
         res.json(res.advancedResults)
     },
     /**
@@ -195,7 +196,7 @@ module.exports = {
 
         }
 
-        res.json({ msg: "success", history: historyUpdate })
+        res.json({ msg: "success", order: historyUpdate })
     },
     cannceledOrder: async (req, res, next) => {
         const { id } = req.body

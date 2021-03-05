@@ -12,7 +12,7 @@ var cors = require('cors')
 var cartRouter = require('./routes/cart.route');
 var usersRouter = require('./routes/users');
 var itemRouter = require("./routes/item.route")
-var TotalRouter = require("./routes/Total.route")
+var reviewRouter = require("./routes/review.route")
 var orderRouter = require("./routes/order.route")
 var testRouter = require("./routes/test.route")
 var tierRouter = require("./routes/tier-variations.route")
@@ -74,7 +74,7 @@ app.use(compression({
 }))
 app.use('/cart', cartRouter);
 app.use('/users', usersRouter);
-app.use("/total", TotalRouter)
+app.use("/review", reviewRouter)
 app.use("/item", itemRouter)
 app.use("/order", orderRouter)
 app.use("/test", testRouter)

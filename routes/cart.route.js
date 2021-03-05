@@ -36,15 +36,15 @@ router.post('/add', [
   passport.authenticate("jwt", { session: false }), cartController.addToCart)
 
 
-router.put("/cart/remove/:carts"
+router.delete("/remove/:carts"
   , passport.authenticate("jwt", { session: false }), cartController.removeToCart)
 
 
-router.delete("/cart/empty-cart",
+router.delete("/empty-cart",
   cartController.emptyCart
 )
 
-router.put("/update", [
+router.put("cart/update", [
   body('id').notEmpty().isString().withMessage('you must supply id'),
   body('number').notEmpty().isInt({ min: 0 }).withMessage('You must supply number positive '),
 ],

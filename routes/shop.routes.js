@@ -36,8 +36,8 @@ router.put('/update', [
   shopController.update
 )
 router.get("/get",
-  passport.authenticate("jwt", { session: false }),
-  authorize("CUSTOMER"),
+  // passport.authenticate("jwt", { session: false }),
+  // authorize("CUSTOMER"),
   advancedResults(Shops)
   , shopController.getall
 )

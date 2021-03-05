@@ -1,5 +1,5 @@
 const User = require("../schema/user.schema")
-const Total = require("../schema/total.schema")
+
 const Items = require("../schema/item.schema");
 const {
     addItemtolist,

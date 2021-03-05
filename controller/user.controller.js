@@ -80,25 +80,24 @@ module.exports = {
     res.json(updateItem)
   },
   getAlluser: async (req, res, next) => {
-    let {
-      day,
-      month,
-      year
-    } = req.params
-    var currdatetime = new Date();
-    console.log(currdatetime);
-    day = day ? day : "02";
-    month = month ? month : "01"
-    year = year ? year : "2020"
-    let gt = `${year}-${month}-${day}`
-    let lt = `${year}-${month + 1}-${day}`
-    const user = await User.find({
-      createdAt: {
-        $gt: new Date(gt),
-        $lt: new Date(lt)
-      }
-    })
-
+    // let {
+    //   day,
+    //   month,
+    //   year
+    // } = req.query
+    // var currdatetime = new Date();
+    // day = day ? day : "02";
+    // month = month ? month : "01"
+    // year = year ? year : "2021"
+    // let gt = `${year}-${month}-${day}`
+    // let lt = `${year}-${month + 1}-${day}`
+    // const user = await User.find({
+    //   createdAt: {
+    //     $gt: new Date(gt),
+    //     $lt: new Date(lt)
+    //   }
+    // })
+    res.json(res.advancedResults)
   },
   createuser: async (req, res, next) => {
     const errors = validationResult(req);
@@ -310,6 +309,17 @@ module.exports = {
       mes: "ok"
     })
   },
+  banUser: async (req, res, next) => {
+    const { id, ban } = req.body
+    console.log(id, ban);
+    const updateuser = await User.findByIdAndUpdate(id, {
+      isBan: ban
+    })
+    if (!updateuser) {
+      res.status(400).json({ msg: "user not found" })
+    }
+    res.json(updateuser)
+  }
   // getFromRedis: async (req, res, next) => {
   //   clientredis.get(req.body.email, (err, data) => {
   //     if (err) throw err;

@@ -41,7 +41,7 @@ router.put("/update",
   //passport.authenticate("jwt", { session: false }), authorize("SHOPOWNER"),
   shoppingController.updateItem)
 router.route("/get")
-  .get(advancedResults(Items), shoppingController.getItems)
+  .get(advancedResults(Items, ["category", "tier_variations"]), shoppingController.getItems)
 router.route("/delete")
   .post(passport.authenticate("jwt", { session: false }), shoppingController.deleteItem)
 

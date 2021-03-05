@@ -21,6 +21,14 @@ const ItemSchema = new Schema({
         type: String,
 
     },
+    attributes: [{
+        name: {
+            type: String
+        },
+        value: {
+            type: String
+        }
+    }],
     category: [{
         type: Schema.Types.ObjectId,
         ref: "Categories"
@@ -37,6 +45,10 @@ const ItemSchema = new Schema({
     shopId: {
         type: Schema.Types.ObjectId,
         ref: "shops"
+    },
+    numberRating: {
+        type: Number,
+        default: 0
     }
 
 
@@ -44,7 +56,7 @@ const ItemSchema = new Schema({
     { timestamps: true },
 
 )
-
+ItemSchema.index({ name: 'text', desc: 'text' })
 ItemSchema.set('versionKey', 'version');
 ItemSchema.plugin(updateIfCurrentPlugin);
 

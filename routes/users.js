@@ -4,8 +4,9 @@ const UserController = require("../controller/user.controller")
 const passport = require("passport")
 const passportConf = require('../passport');
 const { body } = require('express-validator');
-const { authorize } = require("../middleware/auth")
-
+const { authorize } = require("../middleware/auth");
+const advancedResults = require('../middleware/advancedResults');
+const Users = require("../schema/user.schema")
 /* GET users listing. */
 router.post('/create', [
   body('firstName').isString().notEmpty().withMessage('You must supply validate firstName '),
@@ -59,9 +60,9 @@ router.route("/login/forgotpassword")
 router.route("/login/forgotpassword/confirm/:token")
   .post(UserController.changePassword)
 
-// router.route("/refresh")
-//   .post(UserController.refreshToken)
-
+router.get("/getall", advancedResults(Users), UserController.getAlluser)
+// router.get("/get", advancedResults(Users), UserController.getAlluser)
+router.post("/ban", UserController.banUser)
 // router.route("/revoke")
 //   .post(UserController.revokeRefreshtoken)
 

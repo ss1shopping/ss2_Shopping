@@ -8,10 +8,27 @@ const advancedResults = (
   let query
   const reqQuery = { ...req.query }
 
+  if (req._parsedOriginalUrl.pathname === "/order/getAll") {
+    if (req.user) {
+      reqQuery.shopId = req.user.shopId || null
+    } else {
+
+      reqQuery.shopId = null
+    }
+  }
+
   const removeFields = ['select', 'sort', 'page', 'limit']
   removeFields.forEach((param) => delete reqQuery[param])
+  if (reqQuery.keyword) {
 
+    reqQuery.$text = {
+      $search: reqQuery.keyword
+    }
+    console.log(reqQuery);
+    delete reqQuery.keyword
+  }
   let queryStr = JSON.stringify(reqQuery)
+  console.log(queryStr);
   queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, (match) => `$${match}`)
 
   query = model.find(JSON.parse(queryStr))
