@@ -14,16 +14,19 @@ const { authorize } = require('../middleware/auth');
 const advancedResults = require('../middleware/advancedResults');
 const Items = require('../schema/item.schema');
 
+router.get("/search",
+  shoppingController.searchItem
+)
 router.post("/create", [
   body('name').notEmpty().isString().withMessage('you must supply validate name'),
   body("priceMin").optional().isInt({ min: 1 }).withMessage("you must supply validate  minPrice "),
   body("priceMax").optional().isInt({ min: 1 }).withMessage("you must supply validate maxPrice"),
-  body("discount").optional().isString().withMessage("you must supply validate discount"),
+  body("discount").optional().isInt().withMessage("you must supply validate discount"),
   body("sold").optional().isInt({ min: 0 }).withMessage("number sold have problem"),
   body("category").notEmpty().isArray().withMessage("you must supply category"),
 ]
   ,
-  // passport.authenticate("jwt", { session: false }), authorize("SHOPOWNER"), upload.array("files", 12), 
+  passport.authenticate("jwt", { session: false }), authorize("SHOPOWNER"), upload.array("files", 12),
   shoppingController.addItem)
 
 router.put("/update",
@@ -33,7 +36,7 @@ router.put("/update",
     body('name').optional().isString().withMessage('you must supply validate name'),
     body("priceMin").optional().isInt({ min: 1 }).withMessage("you must supply validate  minPrice "),
     body("priceMax").optional().isInt({ min: 1 }).withMessage("you must supply validate maxPrice"),
-    body("discount").optional().isString().withMessage("you must supply validate discount"),
+    body("discount").optional().isInt().withMessage("you must supply validate discount"),
     body("sold").optional().isInt({ min: 0 }).withMessage("number sold have problem"),
     body("category").optional().isArray().withMessage("you must supply category"),
 
@@ -42,11 +45,17 @@ router.put("/update",
   shoppingController.updateItem)
 router.route("/get")
   .get(advancedResults(Items, ["category", "tier_variations"]), shoppingController.getItems)
-router.route("/delete")
-  .post(passport.authenticate("jwt", { session: false }), shoppingController.deleteItem)
+router.route("/delete/:id")
+  .delete(passport.authenticate("jwt", { session: false }), shoppingController.deleteItem)
 
 router.route("/get-one/:id")
   .get(shoppingController.getone)
-// router.route("/uploadImage")
-//   .post(passport.authenticate("jwt", { session: false }), authorize("SHOPOWNER"), upload.single("file"), shoppingController.uploadImage)
+router.route("/uploadImage")
+  .post(
+    // passport.authenticate("jwt", { session: false }), 
+    // authorize("SHOPOWNER"), 
+    upload.single("file"),
+    shoppingController.uploadImage)
+router.route("/deleteImage")
+  .post(shoppingController.deleteImage)
 module.exports = router;

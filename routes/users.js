@@ -9,12 +9,12 @@ const advancedResults = require('../middleware/advancedResults');
 const Users = require("../schema/user.schema")
 /* GET users listing. */
 router.post('/create', [
-  body('firstName').isString().notEmpty().withMessage('You must supply validate firstName '),
-  body('lastName').isString().notEmpty().withMessage('You must supply validate lastName '),
+  body('firstname').isString().notEmpty().withMessage('You must supply validate firstName '),
+  body('lastname').isString().notEmpty().withMessage('You must supply validate lastName '),
   body("email").notEmpty().isEmail().normalizeEmail().withMessage("you must supply validate email"),
-  body("phoneNumber").isNumeric().optional({ nullable: true }).withMessage("you must supply phone number"),
-  body('gender').isString().optional({ nullable: true }).withMessage("gender must be string"),
-  body("dob").isDate().optional({ nullable: true }).withMessage("dob must be date"),
+  // body("phoneNumber").isNumeric().optional({ nullable: true }).withMessage("you must supply phone number"),
+  // body('gender').isString().optional({ nullable: true }).withMessage("gender must be string"),
+  // body("dob").isDate().optional({ nullable: true }).withMessage("dob must be date"),
   body("password").isString({ min: 8 }).notEmpty().withMessage("password msut be greater than 8")
 ],
   UserController.createuser)
@@ -49,7 +49,8 @@ router.put("/update",
     body("addresses.city").optional().isString().withMessage("must be string"),
     body("addresses.address").optional().isString().withMessage("must be string")
   ],
-  passport.authenticate("jwt", { session: false }), UserController.updateUser
+  // passport.authenticate("jwt", { session: false }),
+  UserController.updateUser
 )
 
 router.delete("/delete/:id", passport.authenticate("jwt", { session: false }), authorize("ADMIN"), UserController.deleteUser)

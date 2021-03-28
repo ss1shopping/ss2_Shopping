@@ -14,6 +14,7 @@ module.exports = {
     await newShop.save()
     const updateUser = await User.findByIdAndUpdate(userId, {
       shopId: newShop._id,
+      role: "SHOPOWNER"
     }, {
       useFindAndModify: false,
       new: true,

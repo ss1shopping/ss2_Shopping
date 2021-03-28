@@ -33,7 +33,7 @@ const MONGO_Options = require("./config/db")
 
 const connect = mongoose.connect(MONGO_Options.MONGO_URI || "mongodb://localhost/shopping", MONGO_Options.MONGO_Option)
   .then(() => {
-    // importdata()
+    //importdata()
     console.log("connect MongoDb")
   })
   .catch(err => console.log(err)

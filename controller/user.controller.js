@@ -60,20 +60,34 @@ module.exports = {
     }
     const { id, addresses } = req.body
     delete req.body.addresses;
-    addresses.address = `${addresses.district} ${addresses.state} ${addresses.city}`
-    console.log(req.body);
-    const updateItem = await User.findByIdAndUpdate(id, {
-      $set: req.body,
-      $push: {
-        addresses
-      }
-    },
-      {
-        useFindAndModify: false,
-        new: true,
-        runValidators: true
-      }
-    )
+    let updateItem;
+    if (addresses) {
+
+      addresses.address = `${addresses.district} ${addresses.state} ${addresses.city}`
+      updateItem = await User.findByIdAndUpdate(id, {
+        $set: req.body,
+        $push: {
+          addresses
+        }
+      },
+        {
+          useFindAndModify: false,
+          new: true,
+          runValidators: true
+        }
+      )
+    } else {
+      updateItem = await User.findByIdAndUpdate(id, {
+        ...req.body,
+      },
+        {
+          useFindAndModify: false,
+          new: true,
+          runValidators: true
+        }
+      )
+    }
+
     if (!updateItem) {
       return res.json({ msg: "not found" })
     }

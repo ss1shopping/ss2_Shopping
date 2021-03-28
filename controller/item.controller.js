@@ -1,5 +1,5 @@
 const User = require("../schema/user.schema")
-
+const fs = require("fs")
 const Items = require("../schema/item.schema");
 const {
     addItemtolist,
@@ -10,8 +10,11 @@ const {
 const JWT = require("jsonwebtoken");
 const config = require("../config/index");
 const auth = require("../middleware/verifyToken")
-const { validationResult } = require("express-validator")
-
+const { validationResult } = require("express-validator");
+const Model = require("../schema/models.schema");
+const Tier_variation = require("../schema/tier_variations.schema")
+const client = require("../elasticsearch/index")
+const { v4: uuidv4 } = require('uuid');
 module.exports = {
     /**
      * @URL /item/get
@@ -19,8 +22,31 @@ module.exports = {
      * @param {*} res 
      * @param {*} next 
      */
+    searchItem: async (req, res, next) => {
+        const { keyword } = req.query
+        console.log(keyword);
+        const result = await client.search({
+            index: 'item',
+            // Here the body must follow the `RequestBody` interface
+            body: {
+                query: {
+                    query_string: {
+                        default_field: 'name', query: `*${keyword}*`
+                    }
+                }
+            }
+        })
+        // const result = await client.search({
+        //     index: 'item',
+        //     body: {
+        //         query: {
+        //             query_string: { default_field: 'name', query: `*${keyword}*` }
+        //         }
+        //     }
+        // })
+        res.json(result.body.hits.hits)
+    },
     getItems: async (req, res, next) => {
-
         res.status(200).json(res.advancedResults)
     },
     /**
@@ -46,16 +72,55 @@ module.exports = {
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
-        const { priceMin, priceMax } = req.body
+        let { priceMin, priceMax, name, desc, category, shopId, attributes, model, tier_variations } = req.body
         if (priceMin > priceMax) {
             return res.json({ msg: "price min not > maxPrice" })
         }
-        req.body.shopId = req.user.shopId
+        shopId = req.user.shopId
+        let newtier_variation = []
+        let newmodel = []
         const newitem = new Items({
-            ...req.body
+            priceMin, priceMax, name, desc, category, shopId, attributes, tier_variations: newtier_variation, model: newmodel
         })
+        if (model) {
+            model.map((v, i) => {
+
+                v.itemId = newitem._id
+                // let newmodel = new Model({
+                //     ...v
+                // })
+
+            })
+            let insertManyModel = await Model.insertMany(model)
+            insertManyModel.map((v, i) => {
+                newmodel.push(v._id)
+            })
+        }
+        if (tier_variations) {
+            tier_variations.map((v, i) => {
+                tier_variations.itemId = newitem._id
+
+                // let newtier_variation = new Tier_variation({
+                //     ...v
+                // })
+            })
+            let insetManyTier_variation = await Tier_variation.insertMany(tier_variations)
+            console.log("tiervariation", insetManyTier_variation);
+            insetManyTier_variation.map((v, i) => {
+                newtier_variation.push(v._id)
+            })
+        }
+        newitem.models = newmodel
+        newitem.tier_variations = newtier_variation
         await newitem.save()
-        res.json({ item: newitem, msg: "Add succesful !!!" })
+        const reponse = await client.bulk({
+            body: [
+                // action description
+                { index: { _index: 'item', _id: newitem._id } },
+                { ...req.body }
+            ]
+        })
+        res.json({ item: newitem, elastic: reponse, msg: "Add succesful !!!" })
     },
 
     // decreaseSoldAndQuantityItem: async (arrId) => {
@@ -104,13 +169,38 @@ module.exports = {
                 msg: "item not  found"
             })
         }
+        console.log(itemsupdate);
+        const response = await client.update({
+            index: 'item',
+            type: '_doc',
+            id: itemsupdate._id,
+            body: {
+                // action description
+                doc: {
+                    // category: itemsupdate.caetegory,
+                    // models: itemsupdate.models,
+                    // tier_variations: itemsupdate.tier_variations,
+                    // numberRating: itemsupdate.numberRating,
+                    // _id: itemsupdate._id,
+                    priceMax: itemsupdate.priceMax,
+                    priceMin: itemsupdate.priceMin,
+                    name: itemsupdate.name,
+                    desc: itemsupdate.desc,
+                    // attributes: itemsupdate.attributes,
+                    version: itemsupdate.version,
+                    discount: itemsupdate.discount
+
+                }
+            }
+        })
         res.json({
-            itemsupdate
+            itemsupdate: itemsupdate, elastic: response
         })
     },
     deleteItem: async (req, res, next) => {
 
         const { id } = req.params
+        console.log(id);
         try {
             const items = await Items.findById(id)
             if (!items) {
@@ -120,6 +210,12 @@ module.exports = {
             }
 
             await items.remove();
+            const response = await client.delete({
+                index: 'item',
+                type: '_doc',
+                id: items._id,
+
+            })
             res.json({
                 msg: "remove successful"
             })
@@ -128,25 +224,35 @@ module.exports = {
             res.json({ msg: "some problem" })
         }
     },
-
+    uploadImage: async (req, res, next) => {
+        let path = req.file && req.file.path
+        console.log(req.file);
+        console.log(path);
+        const { subject } = req.body
+        try {
+            if (!path) {
+                return res.status(400).json({
+                    msg: "image null"
+                })
+            }
+            path = path.slice(7, path.length)
+            res.json({ path: path })
+        } catch (error) {
+            console.log(error);
+            res.status(400).json({
+                msg: "no found"
+            })
+        }
+    },
     deleteImage: async (req, res, next) => {
-        const {
-            id
-        } = req.body
-        if (!id) {
-            return res.json({
-                msg: "pls choice image to delete"
-            })
-        }
-        const Image = await itemImage.findById(id)
-        if (!Image) {
-            res.json({
-                smg: "image not found"
-            })
-        }
-        await Image.remove()
-        res.json({
-            msg: "succesfully"
+        let { path } = req.body
+        path = "public/" + path
+        fs.unlink(path, (err) => {
+            if (err) {
+                return res.status(400).json({ msg: "not found" })
+            }
+            res.json({ path, msg: "delete successful" })
         })
     }
+
 }
