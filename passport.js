@@ -39,9 +39,9 @@ passport.use(new LocalStrategy({
 
             bcrypt.compare(password, user.password, (err, isMatch) => {
                 if (isMatch) {
-                    if (user.active == false) {
-                        return done(null, false, { msg: "please active account to login" })
-                    }
+                    // if (user.active == false) {
+                    //     return done(null, false, { msg: "please active account to login" })
+                    // }
                     return done(null, user)
 
                 }

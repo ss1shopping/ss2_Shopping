@@ -38,7 +38,7 @@ router.put("/update",
     body('id').notEmpty().withMessage('you must supply id'),
     body('firstName').isString().optional({ nullable: true }).withMessage('You must supply validate firstName '),
     body('lastName').isString().optional({ nullable: true }).withMessage('You must supply validate lastName '),
-    body("email").notEmpty().isEmail().normalizeEmail().withMessage("you must supply validate email"),
+    body("email").optional().isEmail().normalizeEmail().withMessage("you must supply validate email"),
     body("phoneNumber").isNumeric().optional({ nullable: true }).withMessage("you must supply phone number"),
     body('gender').isString().optional({ nullable: true }).withMessage("gender must be string"),
     body('shopName').isString().optional({ nullable: true }).withMessage("shop name must be supply validate"),
@@ -66,7 +66,10 @@ router.get("/getall", advancedResults(Users), UserController.getAlluser)
 router.post("/ban", UserController.banUser)
 // router.route("/revoke")
 //   .post(UserController.revokeRefreshtoken)
-
+router.get("/currentUser",
+  passport.authenticate("jwt", { session: false }),
+  UserController.currentUser
+)
 router.route("/checktoken")
   .post(passport.authenticate("jwt", { session: false }), UserController.checkToken)
 module.exports = router;

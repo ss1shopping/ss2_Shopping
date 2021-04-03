@@ -166,7 +166,10 @@ module.exports = {
         if (status == "shipping") {
             Promise.all(historyUpdate.detail.map(async (cart) => {
                 await Models.findByIdAndUpdate(cart.modelId, {
-                    $inc: { sold: cart.number },
+                    $inc: {
+                        sold: cart.number,
+                        quantity: -1 * cart.number
+                    },
                 }, {
                     new: true,
                     runValidators: true,
@@ -181,7 +184,7 @@ module.exports = {
             try {
                 for (const id in arrayGroup) {
                     await Items.findByIdAndUpdate(id, {
-                        $inc: { sold: arrayGroup[id] }
+                        $inc: { sold: arrayGroup[id], }
                     }, {
                         new: true,
                         runValidators: true,

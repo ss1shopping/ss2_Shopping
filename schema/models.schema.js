@@ -32,6 +32,9 @@ const ModelsSchema = new Schema({
     type: Number,
     default: 0
   },
+  quantity: {
+    type: Number,
+  },
   price_stocks: [{
     price: {
       type: Number

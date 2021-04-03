@@ -41,6 +41,10 @@ const refreshToken = (users, exp) => {
 }
 
 module.exports = {
+  currentUser: async (req, res, next) => {
+    const user = await User.findById(req.user._id).populate("shopId")
+    res.json(user)
+  },
   deleteUser: async (req, res, next) => {
     const { id } = req.params;
     const existUser = await User.findById(id)
@@ -59,6 +63,7 @@ module.exports = {
       return res.status(400).json({ errors: errors.array() });
     }
     const { id, addresses } = req.body
+
     delete req.body.addresses;
     let updateItem;
     if (addresses) {
