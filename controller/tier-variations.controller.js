@@ -1,5 +1,6 @@
 const Items = require("../schema/item.schema")
 const TierVariation = require("../schema/tier_variations.schema")
+const { validationResult } = require('express-validator');
 module.exports = {
   /**
    * @url /tier-variation/add
@@ -85,10 +86,15 @@ module.exports = {
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { id } = req.body
-    const updateTier = await TierVariation.findByIdAndUpdate(id, {
-      set: req.body
-    })
+    const { _id } = req.body
+    const updateTier = await TierVariation.findByIdAndUpdate(_id, {
+      $set: req.body
+    },
+      {
+        useFindAndModify: false,
+        new: true,
+        runValidators: true
+      })
     if (!updateTier) {
       return res.status(400).json("Tier-variation not found")
     }

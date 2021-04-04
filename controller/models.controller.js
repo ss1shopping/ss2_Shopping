@@ -44,10 +44,11 @@ module.exports = {
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { id, price_stocks } = req.body
+    console.log(req.body);
+    const { _id, price_stocks } = req.body
     if (price_stocks) {
       delete req.body.price_stocks;
-      const model = await Models.findByIdAndUpdate(id, {
+      const model = await Models.findByIdAndUpdate(_id, {
         $set: req.body,
         $push: {
           price_stocks: price_stocks
@@ -63,7 +64,7 @@ module.exports = {
       }
       return res.json(model)
     } else {
-      const model = await Models.findByIdAndUpdate(id, {
+      const model = await Models.findByIdAndUpdate(_id, {
         $set: req.body
       },
         {

@@ -18,15 +18,16 @@ router.post('/add',
     body("tier_varations.image").optional().isString().withMessage("must be string"),
     body("tier_variations.name").optional().isString().withMessage("must be string"),
   ],
-  //passport.authenticate("jwt", { session: false }), authorize("SHOPOWNER"), upload.array("files", 12),
+  passport.authenticate("jwt", { session: false }), authorize("SHOPOWNER"),
   Tier_variationsController.add)
 
 router.put("/update", [
-  body("id").notEmpty().isString().withMessage("Id tier not empty"),
+  body("_id").notEmpty().isString().withMessage("Id tier not empty"),
   body("option").optional().isArray().withMessage("must be string"),
   body("image").optional().isArray().withMessage("must be string"),
   body("name").optional().isString().withMessage("must be string"),
 ],
+  passport.authenticate("jwt", { session: false }), authorize("SHOPOWNER"),
   Tier_variationsController.update)
 
 router.post("/upload/image",
