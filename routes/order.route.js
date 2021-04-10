@@ -7,8 +7,8 @@ const advancedResults = require('../middleware/advancedResults');
 const Orders = require('../schema/order.schema');
 const { authorize } = require('../middleware/auth');
 const { body } = require('express-validator');
-router.get("/getall",
-  passport.authenticate("jwt", { session: false }), authorize("CUSTOMER"),
+router.get("/getAll",
+  passport.authenticate("jwt", { session: false }), authorize("SHOPOWNER"),
   advancedResults(Orders, ["detail.modelId", "detail.itemId", "userId"]),
   orderController.getAllOrders)
 router.get("/getall/user/order",
