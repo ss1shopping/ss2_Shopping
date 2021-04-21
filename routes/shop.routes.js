@@ -32,19 +32,19 @@ router.put('/update', [
   body("backroundImage").optional().isString().withMessage("background iamge msut be image"),
 ],
   passport.authenticate("jwt", { session: false }),
-  authorize("CUSTOMER"),
+  authorize("SHOPOWNER"),
   shopController.update
 )
 router.get("/get",
-  // passport.authenticate("jwt", { session: false }),
-  // authorize("CUSTOMER"),
+  passport.authenticate("jwt", { session: false }),
+  authorize("SHOPOWNER"),
   advancedResults(Shops)
   , shopController.getall
 )
 
 router.get("/get-one",
   passport.authenticate("jwt", { session: false }),
-  authorize("CUSTOMER"),
+  authorize("SHOPOWNER"),
   shopController.getone
 )
 router.delete("/delete",

@@ -65,6 +65,7 @@ module.exports = {
         page ? page = (page - 1) : page = 0
         page < 0 ? page = 0 : page = page
         searchQuery.from = page * limit
+        console.log("category" + category);
         if (category) {
             category = JSON.parse(category)
 
@@ -73,9 +74,10 @@ module.exports = {
                     term: { category: v },
                 }
                 searchQuery.query.bool.filter.push(newterm)
+
             })
         }
-
+        console.log(searchQuery.query.bool.filter);
         if (rangePrice) {
             rangePrice = JSON.parse(rangePrice)
             let newRangePrice = {
