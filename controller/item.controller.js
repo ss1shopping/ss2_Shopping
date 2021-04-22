@@ -23,27 +23,93 @@ module.exports = {
      * @param {*} next 
      */
     searchItem: async (req, res, next) => {
-        const { keyword } = req.query
-        console.log(keyword);
-        const result = await client.search({
-            index: 'item',
-            // Here the body must follow the `RequestBody` interface
-            body: {
-                query: {
-                    query_string: {
-                        default_field: 'name', query: `*${keyword}*`
+        let { keyword, category, sortPrice, rangePrice, rating, sold, page, limit } = req.query
+
+        let searchQuery = {
+            query: {
+                bool: {
+                    must: [
+                        {
+                            query_string: {
+                                query: `*${keyword}*`, fields: ["dec", "attributes.value.keyword", "name"],
+                                analyzer: "whitespace",
+                                tie_breaker: 0.7,
+                                analyze_wildcard: true
+                            }
+                        }
+
+                    ],
+                    filter: [
+                        // { term: { category: "6052043ffd654697aa6d5e7b" } },
+                        // { term: { category: "6052043ffd654697aa6d5e71" } },
+                        // {
+                        //     range: {
+                        //         priceMin: {
+                        //             gte: 10,
+                        //             lte: 20,
+                        //             boost: 2.0
+                        //         }
+                        //     }
+                        // }
+                    ]
+                }
+            },
+            sort: [
+                // { priceMin: { "order": "asc" } },
+                "_score"
+            ],
+            from: 0,
+            size: 20,
+        }
+        limit ? limit = limit : limit = 20
+        page ? page = (page - 1) : page = 0
+        page < 0 ? page = 0 : page = page
+        searchQuery.from = page * limit
+        console.log("category" + category);
+        if (category) {
+            category = JSON.parse(category)
+
+            category.map((v, i) => {
+                let newterm = {
+                    term: { category: v },
+                }
+                searchQuery.query.bool.filter.push(newterm)
+
+            })
+        }
+        console.log(searchQuery.query.bool.filter);
+        if (rangePrice) {
+            rangePrice = JSON.parse(rangePrice)
+            let newRangePrice = {
+                range: {
+                    priceMin: {
+                        gte: rangePrice.minPrice ? +rangePrice.minPrice : 1,
+                        lte: rangePrice.maxPrice ? +rangePrice.maxPrice : 100000000000000000,
+                        boost: 2.0
                     }
                 }
             }
+            console.log(newRangePrice);
+            searchQuery.query.bool.filter.push(newRangePrice)
+        }
+        if (sortPrice) {
+
+            let newsortPrice = {
+                priceMin: { "order": sortPrice }
+            }
+            searchQuery.sort.push(newsortPrice)
+        }
+        if (sold) {
+
+        }
+
+        const result = await client.search({
+            index: 'item',
+            // Here the body must follow the `RequestBody` interface
+            body: searchQuery
+
         })
-        // const result = await client.search({
-        //     index: 'item',
-        //     body: {
-        //         query: {
-        //             query_string: { default_field: 'name', query: `*${keyword}*` }
-        //         }
-        //     }
-        // })
+
         res.json(result.body.hits.hits)
     },
     getItems: async (req, res, next) => {

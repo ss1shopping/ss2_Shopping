@@ -51,8 +51,8 @@ module.exports = {
     res.json(existShop)
   },
   update: async (req, res, next) => {
-    const { id } = req.body
-    const existShop = await Shops.findByIdAndUpdate(id, {
+    const { _id } = req.body
+    const existShop = await Shops.findByIdAndUpdate(_id, {
       $set: req.body
     },
       {

@@ -261,5 +261,14 @@ module.exports = {
       runValidators: true
     });
     res.json({ parent: updateParent, child: child })
+  },
+  getList: async (req, res, next) => {
+    const category = JSON.parse(req.query.category)
+    const listcategory = await Category.find({
+      "_id": {
+        $in: category
+      }
+    })
+    res.json(listcategory)
   }
 }

@@ -6,6 +6,7 @@ module.exports = importdata = async () => {
     name: "aongan",
     path: "/root/men/ao/aongan",
     desc: "clothes",
+    icon: "/images/tenanh.jpg"
   })
   const result7 = await aongan.save()
 

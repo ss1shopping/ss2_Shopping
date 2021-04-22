@@ -36,6 +36,7 @@ const ItemSchema = new Schema({
     sold: {
         type: Number,
         required: false,
+        default: 0
     },
     models: [{ type: Schema.Types.ObjectId, ref: "models" }],
     tier_variations: [{

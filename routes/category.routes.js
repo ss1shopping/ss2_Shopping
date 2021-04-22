@@ -48,5 +48,7 @@ router.put("/set-order", [
 router.delete("/delete",
   CategoryController.delete
 )
+router.get("/get/list/recommend", CategoryController.getList)
+
 
 module.exports = router
