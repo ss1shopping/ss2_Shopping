@@ -99,49 +99,49 @@ module.exports = importdata = async () => {
 
 }
 
-const newitem = new Item({
-  name: "tien1234",
-  priceMin: 12,
-  priceMax: 30,
-  discount: 20,
-  desc: "test",
-  attributes: [{
-    brand: "hih",
-    value: "oko",
-  }, {
-    xuatxu: "ok",
-    value: "china"
-  },
-  ],
-  category: ["6052043ffd654697aa6d5e7b", "6052043ffd654697aa6d5e71", "6052043ffd654697aa6d5e70"],
-  models: [{
-    name: "vang,M",
-    price: 14
-  },
-  {
-    name: "vang,L",
-    price: 10
-  },
-  {
-    name: "den,XL",
-    price: 14
-  },
-  {
-    name: "den,L",
-    price: 13
-  },
-  ],
-  tier_variations: [
-    {
-      option: ["M", "L", "X", "XL"],
-      images: ["test1", "test2", "test3", "test5"],
-      name: "size"
-    },
-    {
-      option: ["mau vang", "mau den", "mau trang", "mau bac"],
-      images: ["test1", "test2", "test3", "test5"],
-      name: "color"
-    }
-  ]
+// const newitem = new Item({
+//   name: "tien1234",
+//   priceMin: 12,
+//   priceMax: 30,
+//   discount: 20,
+//   desc: "test",
+//   attributes: [{
+//     brand: "hih",
+//     value: "oko",
+//   }, {
+//     xuatxu: "ok",
+//     value: "china"
+//   },
+//   ],
+//   category: ["6052043ffd654697aa6d5e7b", "6052043ffd654697aa6d5e71", "6052043ffd654697aa6d5e70"],
+//   models: [{
+//     name: "vang,M",
+//     price: 14
+//   },
+//   {
+//     name: "vang,L",
+//     price: 10
+//   },
+//   {
+//     name: "den,XL",
+//     price: 14
+//   },
+//   {
+//     name: "den,L",
+//     price: 13
+//   },
+//   ],
+//   tier_variations: [
+//     {
+//       option: ["M", "L", "X", "XL"],
+//       images: ["test1", "test2", "test3", "test5"],
+//       name: "size"
+//     },
+//     {
+//       option: ["mau vang", "mau den", "mau trang", "mau bac"],
+//       images: ["test1", "test2", "test3", "test5"],
+//       name: "color"
+//     }
+//   ]
 
-})
+// })
