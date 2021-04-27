@@ -313,6 +313,7 @@ module.exports = importdata = async () => {
     name: "Menswear",
     path: "/root/menswear",
     desc: "menswear",
+    icon: "/images/menswear.png",
     children: [menshirtS._id, menjacketS._id, menpantS._id, menbagwallerS._id, menaccessoriesS._id]
   })
   const menswearS = await menswear.save()
@@ -523,6 +524,7 @@ module.exports = importdata = async () => {
     name: "Womenswear",
     path: "/root/womenswear",
     desc: "womenswear",
+    icon: "/images/womenswear.png",
     children: [womentopS._id, womendressS._id, womencoatS._id, womenunderpija._id, womenskirtS._id]
   })
   const womenswearS = await womenswear.save()
@@ -571,6 +573,7 @@ module.exports = importdata = async () => {
     children: [backupbatteryS._id, cablechargerS._id, ptbatteryS._id, ptsimS._id]
 
   })
+  const ptaccessoriesS = await ptaccessories.save()
 
   //SCREEN PROTECTOR
   const screenprotector = new Category({
@@ -656,7 +659,8 @@ module.exports = importdata = async () => {
     name: "Phone & Tablet",
     path: "/root/phonetab",
     desc: "phone/tablet",
-    children: []
+    icon: "/images/phonetab.png",
+    children: [phoneS._id, tabletS._id, casecoverS._id, screenprotectorS._id, ptaccessoriesS._id]
 
   })
   const phonetabS = await phonetab.save()
@@ -754,6 +758,7 @@ module.exports = importdata = async () => {
     name: "Electronic",
     path: "/root/electronic",
     desc: "electronic",
+    icon: "/images/electronic.png",
     children: [audioS._id, headphoneS._id, accessgamingS._id, tvS._id, wearableS._id]
 
   })
@@ -908,6 +913,7 @@ module.exports = importdata = async () => {
     name: "Beauty",
     path: "/root/beauty",
     desc: "beauty",
+    icon: "/images/beauty.png",
     children: [skincareS._id, makeupS._id, menscosS._id, shamshowS._id, perfumeS._id]
 
   })
@@ -950,6 +956,7 @@ module.exports = importdata = async () => {
     name: "Health Care",
     path: "/root/health",
     desc: "health",
+    icon: "/images/health.png",
     children: [medicaleqS._id, medicineS._id, vitaminS._id, dietaryS._id]
 
   })
@@ -1018,19 +1025,334 @@ module.exports = importdata = async () => {
     name: "Footwear",
     path: "/root/footwear",
     desc: "footwear",
+    icon: "/images/footwear.png",
     children: [sandalS._id, bootsS._id, sneakerS._id, slipperS._id, westernshoesS._id, heelclogS._id, saccessS._id]
 
   })
   const footwearS = await footwear.save()
 
+//HOUSEHOLD APPLIANCES
+  //LARGE EQUIPMENT
 
+  const khood = new Category({
+    name: "Kitchen Hood",
+    path: "/root/houseapp/lequip/khood",
+    desc: "kitchen hood"
+  })
+  const khoodS = await khood.save()
+
+  const freezer = new Category({
+    name: "Freezer",
+    path: "/root/houseapp/lequip/freezer",
+    desc: "freezer"
+  })
+  const freezerS = await freezer.save()
+
+  const wapu = new Category({
+    name: "Water Purifier",
+    path: "/root/houseapp/lequip/wapu",
+    desc: "water purifier"
+  })
+  const wapuS = await wapu.save()
+
+  const refrige = new Category({
+    name: "Refrigerator",
+    path: "/root/houseapp/lequip/refrige",
+    desc: "refrigerator"
+  })
+  const refrigeS = await refrige.save()
+
+  const washdry = new Category({
+    name: "Washing % Drying Machine",
+    path: "/root/houseapp/lequip/washdry",
+    desc: "washing/drying machine"
+  })
+  const washdryS = await washdry.save()
+
+  const lequip = new Category({
+    name: "Large Equiment",
+    path: "/root/houseapp/lequip",
+    desc: "large equipment",
+    children: [washdryS._id, refrigeS._id, wapuS._id, freezerS._id, khoodS._id]
+  })
+  const lequipS = await lequip.save()
+
+  //CLEANING
+  const dust = new Category({
+    name: "Dust Blower",
+    path: "/root/houseapp/clean/dust",
+    desc: "dustblower"
+  })
+  const dustS = await dust.save()
+
+  const vacuum = new Category({
+    name: "Vacuum Cleaner",
+    path: "/root/houseapp/clean/vacuum",
+    desc: "vacuum"
+  })
+  const vacuumS = await vacuum.save()
+
+  const cleaning = new Category({
+    name: "Cleaning Equiment",
+    path: "/root/houseapp/clean",
+    desc: "cleaning",
+    children: [vacuumS._id, dustS._id]
+  })
+  const cleaningS = await cleaning.save()
+
+  //CLOTHING CARE
+  const sewing = new Category({
+    name: "Sewing Machine",
+    path: "/root/houseapp/clothcare/sewing",
+    desc: "sewing"
+  })
+  const sewingS = await sewing.save()
+
+  const iron = new Category({
+    name: "Iron",
+    path: "/root/houseapp/clothcare/iron",
+    desc: "iron"
+  })
+  const ironS = await iron.save()
+
+  const clothcare = new Category({
+    name: "Clothing Care",
+    path: "/root/houseapp/clothcare",
+    desc: "clothingcare",
+    children: [ironS._id, sewingS._id]
+  })
+  const clothcareS = await clothcare.save()
+
+  //FAN & AIR CONDITIONER
+
+  const dehumid = new Category({
+    name: "Deumidifier",
+    path: "/root/houseapp/fanair/dehumid",
+    desc: "dehumidifier"
+  })
+  const dehumidS = await dehumid.save()
+
+  const heater = new Category({
+    name: "Heater",
+    path: "/root/houseapp/fanair/heater",
+    desc: "heater"
+  })
+  const heaterS = await heater.save()
+
+  const waterheat = new Category({
+    name: "Electric Water Heater",
+    path: "/root/houseapp/fanair/waterheat",
+    desc: "electric water heater"
+  })
+  const waterheatS = await waterheat.save()
+
+  const humid = new Category({
+    name: "Humidifier",
+    path: "/root/houseapp/fanair/humid",
+    desc: "humidifier"
+  })
+  const humidS = await humid.save()
+
+  const aircon = new Category({
+    name: "Air-conditioner",
+    path: "/root/houseapp/fanair/aircon",
+    desc: "aircon"
+  })
+  const airconS = await aircon.save()
+
+  const fan = new Category({
+    name: "Fan",
+    path: "/root/houseapp/fanair/fan",
+    desc: "fan"
+  })
+  const fanS = await fan.save()
+
+  const fanair = new Category({
+    name: "Fan & Air-conditioner",
+    path: "/root/houseapp/fanair",
+    desc: "fan/aircon",
+    children: [fanS._id, airconS._id, humidS._id, waterheatS._id, heaterS._id, dehumidS._id]
+  })
+  const fanairS = await fanair.save()
+
+  //KITCHEN
+  const fryer = new Category({
+    name: "Fryer",
+    path: "/root/houseapp/kitchen/fryer",
+    desc: "fryer"
+  })
+  const fryerS = await fryer.save()
+
+  const panpot = new Category({
+    name: "Pan & Pot",
+    path: "/root/houseapp/kitchen/panpot",
+    desc: "owen/microwave"
+  })
+  const panpotS = await panpot.save()
+
+  const ovenmicro = new Category({
+    name: "Oven & Microwave",
+    path: "/root/houseapp/kitchen/ovenmicro",
+    desc: "owen/microwave"
+  })
+  const ovenmicroS = await ovenmicro.save()
+
+  const baking = new Category({
+    name: "Baking",
+    path: "/root/houseapp/kitchen/baking",
+    desc: "baking"
+  })
+  const bakingS = await baking.save()
+
+  const stove = new Category({
+    name: "Stove",
+    path: "/root/houseapp/kitchen/stove",
+    desc: "stove"
+  })
+  const stoveS = await stove.save()
+
+  const cooker = new Category({
+    name: "Cooker",
+    path: "/root/houseapp/kitchen/cooker",
+    desc: "cooker"
+  })
+  const cookerS = await cooker.save()
+
+  const fprocessor = new Category({
+    name: "Food Processor",
+    path: "/root/houseapp/kitchen/fprocessor",
+    desc: "foodprocessor"
+  })
+  const fprocessorS = await fprocessor.save()
+
+  const kitchen = new Category({
+    name: "Kitchen",
+    path: "/root/houseapp/kitchen",
+    desc: "kitchen",
+    children: [fprocessorS._id, cookerS._id, stoveS._id, panpotS._id, fryerS._id, bakingS._id, ovenmicroS._id]
+  })
+  const kitchenS = await kitchen.save()
+
+  const houseapp = new Category({
+    name: "Household Appliances",
+    path: "/root/houseapp",
+    desc: "houshold appliances",
+    icon: "/images/houseapp.png",
+    children: [kitchenS._id, lequipS._id, fanairS._id, cleaningS._id, clothcareS._id]
+
+  })
+  const houseappS = await houseapp.save()
+
+//BOOK & EDUCATION
+  //BOOK
+  const vbook = new Category({
+    name: "Vietnamese Book",
+    path: "/root/bookedu/vbook",
+    desc: "vbook"
+
+  })
+  const vbookS = await vbook.save()
+
+  const fbook = new Category({
+    name: "Foreign Book",
+    path: "/root/bookedu/fbook",
+    desc: "fbook"
+  })
+  const fbookS = await fbook.save()
+
+  const stationery = new Category({
+    name: "Stationery",
+    path: "/root/bookedu/stationery",
+    desc: "stationery"
+  })
+  const stationeryS = await stationery.save()
+
+  const instrument = new Category({
+    name: "Instrument",
+    path: "/root/bookedu/instrument",
+    desc: "instrument"
+  })
+  const instrumentS = await instrument.save()
+
+  const souvenir = new Category({
+    name: "Souvenir",
+    path: "/root/bookedu/souvenir",
+    desc: "souvenir"
+  })
+  const souvenirS = await souvenir.save()
+
+  const bookedu = new Category({
+    name: "Books & Education",
+    path: "/root/bookedu",
+    desc: "bookedu",
+    icon: "/images/bookedu.png",
+    children: [vbookS._id, fbookS._id, souvenirS._id, stationeryS._id, instrumentS._id, souvenirS._id]
+
+  })
+  const bookeduS = await bookedu.save()
+
+//FOOD & DRINK
+  //FOOD DRINK
+  const milk = new Category({
+    name: "Milk",
+    path: "/root/fooddrink/milk",
+    desc: "mild"
+  })
+  const milkS = await milk.save()
+
+  const gift = new Category({
+    name: "Gift",
+    path: "/root/fooddrink/gift",
+    desc: "gift"
+  })
+  const giftS = await gift.save()
+
+  const beverage = new Category({
+    name: "Beverage",
+    path: "/root/fooddrink/beverage",
+    desc: "beverage"
+  })
+  const beverageS = await beverage.save()
+
+  const cannedpackage = new Category({
+    name: "Canned/Package Food",
+    path: "/root/fooddrink/canpack",
+    desc: "can/package"
+  })
+  const cannedpackageS = await cannedpackage.save()
+
+  const drink = new Category({
+    name: "Drink",
+    path: "/root/fooddrink/drink",
+    desc: "drink"
+  })
+  const drinkS = await drink.save()
+  
+  const snack = new Category({
+    name: "Snack",
+    path: "/root/fooddrink/snack",
+    desc: "snack"
+  })
+  const snackS = await snack.save()
+
+  const fooddrink = new Category({
+    name: "Food & Drink",
+    path: "/root/fooddrink",
+    desc: "food/drink",
+    icon: "/images/fooddrink.png",
+    children: [snackS._id, drinkS._id, cannedpackageS._id, beverageS._id, milkS._id, giftS._id]
+
+  })
+  const fooddrinkS = await fooddrink.save()
+
+//ROOT  
 
   const root = new Category({
     name: "root",
     path: "/root",
     desc: "root",
     isRoot: true,
-    children: [menswearS._id, womenswearS._id, phonetabS._id, electronicS._id, beautyS._id, healthS._id, footwearS._id]
+    children: [menswearS._id, womenswearS._id, phonetabS._id, electronicS._id, beautyS._id, healthS._id, footwearS._id, houseappS._id, bookeduS._id, fooddrinkS._id]
   }).save()
 
 }
