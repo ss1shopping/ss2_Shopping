@@ -769,7 +769,8 @@ module.exports = importdata = async () => {
   const shamshow = new Category({
     name: "Shampoo & Shower Gel",
     path: "/root/beauty/shamshow",
-    desc: "shamshow"
+    desc: "shamshow",
+    icon: "/images/shamshow.png"
 
   })
   const shamshowS = await shamshow.save()
@@ -778,7 +779,8 @@ module.exports = importdata = async () => {
   const beardcare = new Category({
     name: "Beard Care",
     path: "/root/beauty/menscos/beardcare",
-    desc: "beardcare"
+    desc: "beardcare",
+    icon: "/images/beardcare.png"
 
   })
   const beardcareS = await beardcare.save()
@@ -786,7 +788,8 @@ module.exports = importdata = async () => {
   const pomade = new Category({
     name: "Pomade",
     path: "/root/beauty/menscos/pomade",
-    desc: "pomade"
+    desc: "pomade",
+    icon: "/images/pomade.png"
 
   })
   const pomadeS = await pomade.save()
@@ -794,7 +797,8 @@ module.exports = importdata = async () => {
   const bodyspray = new Category({
     name: "Body Spray",
     path: "/root/beauty/menscos/bodyspray",
-    desc: "bodyspray"
+    desc: "bodyspray",
+    icon: "/images/bodyspray.png"
 
   })
   const bodysprayS = await bodyspray.save()
@@ -803,6 +807,7 @@ module.exports = importdata = async () => {
     name: "Men's Cosmetic",
     path: "/root/beauty/menscos",
     desc: "menscos",
+    icon: "/images/menscos.png",
     children: [bodysprayS._id, pomadeS._id, beardcareS._id]
 
   })
@@ -812,7 +817,8 @@ module.exports = importdata = async () => {
   const eyemakeup = new Category({
     name: "Eyes Makeup",
     path: "/root/beauty/makeup/eye",
-    desc: "eyemakeup"
+    desc: "eyemakeup",
+    icon: "/images/eyemakeup.png"
 
   })
   const eyemakeupS = await eyemakeup.save()
@@ -820,7 +826,8 @@ module.exports = importdata = async () => {
   const skinmakeup = new Category({
     name: "Skin Makeup",
     path: "/root/beauty/makeup/skin",
-    desc: "skinmakeup"
+    desc: "skinmakeup",
+    icon: "/images/skinmakeup.png"
 
   })
   const skinmakeupS = await skinmakeup.save()
@@ -828,7 +835,8 @@ module.exports = importdata = async () => {
   const lipstick = new Category({
     name: "Lipstick",
     path: "/root/beauty/makeup/lipstick",
-    desc: "lipstick"
+    desc: "lipstick",
+    icon: "/images/lipstick.png"
 
   })
   const lipstickS = await lipstick.save()
@@ -837,6 +845,7 @@ module.exports = importdata = async () => {
     name: "Makeup",
     path: "/root/beauty/makeup",
     desc: "makeup",
+    icon: "/images/makeup.png",
     children: [lipstickS._id, skinmakeupS._id, eyemakeupS._id]
 
   })
@@ -846,7 +855,8 @@ module.exports = importdata = async () => {
   const serum = new Category({
     name: "Serum",
     path: "/root/beauty/skincare/serum",
-    desc: "serum"
+    desc: "serum",
+    icon: "/images/serum.png"
 
   })
   const serumS = await serum.save()
@@ -854,7 +864,8 @@ module.exports = importdata = async () => {
   const lotion = new Category({
     name: "Lotion",
     path: "/root/beauty/skincare/lotion",
-    desc: "lotion"
+    desc: "lotion",
+    icon: "/images/lotion.png"
 
   })
   const lotionS = await lotion.save()
@@ -862,7 +873,8 @@ module.exports = importdata = async () => {
   const mineralspray = new Category({
     name: "Mineral Spray",
     path: "/root/beauty/skincare/mineralspray",
-    desc: "mineralspray"
+    desc: "mineralspray",
+    icon: "/images/mineralspray.png"
 
   })
   const mineralsprayS = await mineralspray.save()
@@ -870,7 +882,8 @@ module.exports = importdata = async () => {
   const mask = new Category({
     name: "Mask",
     path: "/root/beauty/skincare/mask",
-    desc: "mask"
+    desc: "mask",
+    icon: "/images/mask.png"
 
   })
   const maskS = await mask.save()
@@ -878,7 +891,8 @@ module.exports = importdata = async () => {
   const sunscreen = new Category({
     name: "Sunscress",
     path: "/root/beauty/skincare/sunscreen",
-    desc: "sunscreen"
+    desc: "sunscreen",
+    icon: "/images/sunscreen.png"
 
   })
   const sunscreenS = await sunscreen.save()
@@ -886,7 +900,8 @@ module.exports = importdata = async () => {
   const cleanser = new Category({
     name: "Cleanser",
     path: "/root/beauty/skincare/cleanser",
-    desc: "cleanser"
+    desc: "cleanser",
+    icon: "/images/cleanser.png"
 
   })
   const cleanserS = await cleanser.save()
@@ -895,6 +910,7 @@ module.exports = importdata = async () => {
     name: "Skin Care",
     path: "/root/beauty/skincare",
     desc: "skincare",
+    icon: "/images/skincare.png",
     children: [cleanserS._id, sunscreenS._id, maskS._id, lotionS._id, serumS._id, mineralsprayS._id]
 
   })
@@ -904,7 +920,8 @@ module.exports = importdata = async () => {
   const perfume = new Category({
     name: "Perfume",
     path: "/root/beauty/perfume",
-    desc: "perfume"
+    desc: "perfume",
+    icon: "/images/perfume.png"
 
   })
   const perfumeS = await perfume.save()
@@ -923,7 +940,8 @@ module.exports = importdata = async () => {
   const medicine = new Category({
     name: "Medicine",
     path: "/root/health/medicine",
-    desc: "medicine"
+    desc: "medicine",
+    icon: "/images/medicine.png"
 
   })
   const medicineS = await medicine.save()
@@ -931,7 +949,8 @@ module.exports = importdata = async () => {
   const dietary = new Category({
     name: "Dietary Supplement",
     path: "/root/health/dietary",
-    desc: "dietary supplement"
+    desc: "dietary supplement",
+    icon: "/images/dietary.png"
 
   })
   const dietaryS = await dietary.save()
@@ -939,7 +958,8 @@ module.exports = importdata = async () => {
   const vitamin = new Category({
     name: "Vitamin",
     path: "/root/health/vitamin",
-    desc: "vitamin"
+    desc: "vitamin",
+    icon: "/images/vitamin.png"
 
   })
   const vitaminS = await vitamin.save()
@@ -947,7 +967,8 @@ module.exports = importdata = async () => {
   const medicaleq = new Category({
     name: "Medical Equipment",
     path: "/root/health/medicaleq",
-    desc: "medical equipment"
+    desc: "medical equipment",
+    icon: "/images/medicaleq.png"
 
   })
   const medicaleqS = await medicaleq.save()
@@ -966,7 +987,8 @@ module.exports = importdata = async () => {
   const saccess = new Category({
     name: "Shoes Accessories",
     path: "/root/footwear/saccess",
-    desc: "accessories"
+    desc: "accessories",
+    icon: "/images/saccess.png"
 
   })
   const saccessS = await saccess.save()
@@ -974,7 +996,8 @@ module.exports = importdata = async () => {
   const heelclog = new Category({
     name: "High Heels/Clogs",
     path: "/root/footwear/heelclog",
-    desc: "highheels/clogs"
+    desc: "highheels/clogs",
+    icon: "/images/heelclog.png"
 
   })
   const heelclogS = await heelclog.save()
@@ -982,7 +1005,8 @@ module.exports = importdata = async () => {
   const westernshoes = new Category({
     name: "Western Shoes",
     path: "/root/footwear/western",
-    desc: "westernshoes"
+    desc: "westernshoes",
+    icon: "/images/westernshoes.png"
 
   })
   const westernshoesS = await westernshoes.save()
@@ -990,7 +1014,8 @@ module.exports = importdata = async () => {
   const slipper = new Category({
     name: "Slipper",
     path: "/root/footwear/slipper",
-    desc: "slipper"
+    desc: "slipper",
+    icon: "/images/slipper.png"
 
   })
   const slipperS = await slipper.save()
@@ -998,7 +1023,8 @@ module.exports = importdata = async () => {
   const sneaker = new Category({
     name: "Sneaker",
     path: "/root/footwear/sneaker",
-    desc: "sneaker"
+    desc: "sneaker",
+    icon: "/images/sneaker.png"
 
   })
   const sneakerS = await sneaker.save()
@@ -1007,7 +1033,8 @@ module.exports = importdata = async () => {
   const boots = new Category({
     name: "Boots",
     path: "/root/footwear/boots",
-    desc: "boots"
+    desc: "boots",
+    icon: "/images/boots.png"
 
   })
   const bootsS = await boots.save()
@@ -1016,7 +1043,8 @@ module.exports = importdata = async () => {
   const sandal = new Category({
     name: "Sandal",
     path: "/root/footwear/sandal",
-    desc: "footwear"
+    desc: "sandal",
+    icon: "/images/sandal.png"
 
   })
   const sandalS = await sandal.save()
@@ -1037,35 +1065,40 @@ module.exports = importdata = async () => {
   const khood = new Category({
     name: "Kitchen Hood",
     path: "/root/houseapp/lequip/khood",
-    desc: "kitchen hood"
+    desc: "kitchen hood",
+    icon: "/images/khood.png"
   })
   const khoodS = await khood.save()
 
   const freezer = new Category({
     name: "Freezer",
     path: "/root/houseapp/lequip/freezer",
-    desc: "freezer"
+    desc: "freezer",
+    icon: "/images/freezer.png"
   })
   const freezerS = await freezer.save()
 
   const wapu = new Category({
     name: "Water Purifier",
     path: "/root/houseapp/lequip/wapu",
-    desc: "water purifier"
+    desc: "water purifier",
+    icon: "/images/wapu.png"
   })
   const wapuS = await wapu.save()
 
   const refrige = new Category({
     name: "Refrigerator",
     path: "/root/houseapp/lequip/refrige",
-    desc: "refrigerator"
+    desc: "refrigerator",
+    icon: "/images/refrige.png"
   })
   const refrigeS = await refrige.save()
 
   const washdry = new Category({
     name: "Washing % Drying Machine",
     path: "/root/houseapp/lequip/washdry",
-    desc: "washing/drying machine"
+    desc: "washing/drying machine",
+    icon: "/images/washdry.png"
   })
   const washdryS = await washdry.save()
 
@@ -1073,6 +1106,7 @@ module.exports = importdata = async () => {
     name: "Large Equiment",
     path: "/root/houseapp/lequip",
     desc: "large equipment",
+    icon: "/images/lequip.png",
     children: [washdryS._id, refrigeS._id, wapuS._id, freezerS._id, khoodS._id]
   })
   const lequipS = await lequip.save()
@@ -1081,14 +1115,16 @@ module.exports = importdata = async () => {
   const dust = new Category({
     name: "Dust Blower",
     path: "/root/houseapp/clean/dust",
-    desc: "dustblower"
+    desc: "dustblower",
+    icon: "/images/dust.png"
   })
   const dustS = await dust.save()
 
   const vacuum = new Category({
     name: "Vacuum Cleaner",
     path: "/root/houseapp/clean/vacuum",
-    desc: "vacuum"
+    desc: "vacuum",
+    icon: "/images/vacuum.png"
   })
   const vacuumS = await vacuum.save()
 
@@ -1096,6 +1132,7 @@ module.exports = importdata = async () => {
     name: "Cleaning Equiment",
     path: "/root/houseapp/clean",
     desc: "cleaning",
+    icon: "/images/cleaning.png",
     children: [vacuumS._id, dustS._id]
   })
   const cleaningS = await cleaning.save()
@@ -1104,14 +1141,16 @@ module.exports = importdata = async () => {
   const sewing = new Category({
     name: "Sewing Machine",
     path: "/root/houseapp/clothcare/sewing",
-    desc: "sewing"
+    desc: "sewing",
+    icon: "/images/sewing.png"
   })
   const sewingS = await sewing.save()
 
   const iron = new Category({
     name: "Iron",
     path: "/root/houseapp/clothcare/iron",
-    desc: "iron"
+    desc: "iron",
+    icon: "/images/iron.png"
   })
   const ironS = await iron.save()
 
@@ -1119,6 +1158,7 @@ module.exports = importdata = async () => {
     name: "Clothing Care",
     path: "/root/houseapp/clothcare",
     desc: "clothingcare",
+    icon: "/images/clothcare.png",
     children: [ironS._id, sewingS._id]
   })
   const clothcareS = await clothcare.save()
@@ -1128,42 +1168,48 @@ module.exports = importdata = async () => {
   const dehumid = new Category({
     name: "Deumidifier",
     path: "/root/houseapp/fanair/dehumid",
-    desc: "dehumidifier"
+    desc: "dehumidifier",
+    icon: "/images/dehumid.png"
   })
   const dehumidS = await dehumid.save()
 
   const heater = new Category({
     name: "Heater",
     path: "/root/houseapp/fanair/heater",
-    desc: "heater"
+    desc: "heater",
+    icon: "/images/heater.png"
   })
   const heaterS = await heater.save()
 
   const waterheat = new Category({
     name: "Electric Water Heater",
     path: "/root/houseapp/fanair/waterheat",
-    desc: "electric water heater"
+    desc: "electric water heater",
+    icon: "/images/waterheat.png"
   })
   const waterheatS = await waterheat.save()
 
   const humid = new Category({
     name: "Humidifier",
     path: "/root/houseapp/fanair/humid",
-    desc: "humidifier"
+    desc: "humidifier",
+    icon: "/images/humid.png"
   })
   const humidS = await humid.save()
 
   const aircon = new Category({
     name: "Air-conditioner",
     path: "/root/houseapp/fanair/aircon",
-    desc: "aircon"
+    desc: "aircon",
+    icon: "/images/aircon.png"
   })
   const airconS = await aircon.save()
 
   const fan = new Category({
     name: "Fan",
     path: "/root/houseapp/fanair/fan",
-    desc: "fan"
+    desc: "fan",
+    icon: "/images/fan.png"
   })
   const fanS = await fan.save()
 
@@ -1171,6 +1217,7 @@ module.exports = importdata = async () => {
     name: "Fan & Air-conditioner",
     path: "/root/houseapp/fanair",
     desc: "fan/aircon",
+    icon: "/images/fanair.png",
     children: [fanS._id, airconS._id, humidS._id, waterheatS._id, heaterS._id, dehumidS._id]
   })
   const fanairS = await fanair.save()
@@ -1179,49 +1226,56 @@ module.exports = importdata = async () => {
   const fryer = new Category({
     name: "Fryer",
     path: "/root/houseapp/kitchen/fryer",
-    desc: "fryer"
+    desc: "fryer",
+    icon: "/images/fyer.png"
   })
   const fryerS = await fryer.save()
 
   const panpot = new Category({
     name: "Pan & Pot",
     path: "/root/houseapp/kitchen/panpot",
-    desc: "owen/microwave"
+    desc: "pan/pot",
+    icon: "/images/panpot.png"
   })
   const panpotS = await panpot.save()
 
   const ovenmicro = new Category({
     name: "Oven & Microwave",
     path: "/root/houseapp/kitchen/ovenmicro",
-    desc: "owen/microwave"
+    desc: "oven/microwave",
+    icon: "/images/ovenmicro.png"
   })
   const ovenmicroS = await ovenmicro.save()
 
   const baking = new Category({
     name: "Baking",
     path: "/root/houseapp/kitchen/baking",
-    desc: "baking"
+    desc: "baking",
+    icon: "/images/baking.png"
   })
   const bakingS = await baking.save()
 
   const stove = new Category({
     name: "Stove",
     path: "/root/houseapp/kitchen/stove",
-    desc: "stove"
+    desc: "stove",
+    icon: "/images/stove.png"
   })
   const stoveS = await stove.save()
 
   const cooker = new Category({
     name: "Cooker",
     path: "/root/houseapp/kitchen/cooker",
-    desc: "cooker"
+    desc: "cooker",
+    icon: "/images/cooker.png"
   })
   const cookerS = await cooker.save()
 
   const fprocessor = new Category({
     name: "Food Processor",
     path: "/root/houseapp/kitchen/fprocessor",
-    desc: "foodprocessor"
+    desc: "foodprocessor",
+    icon: "/images/fprocessor.png"
   })
   const fprocessorS = await fprocessor.save()
 
@@ -1229,6 +1283,7 @@ module.exports = importdata = async () => {
     name: "Kitchen",
     path: "/root/houseapp/kitchen",
     desc: "kitchen",
+    icon: "/images/kitchen.png",
     children: [fprocessorS._id, cookerS._id, stoveS._id, panpotS._id, fryerS._id, bakingS._id, ovenmicroS._id]
   })
   const kitchenS = await kitchen.save()
@@ -1248,7 +1303,8 @@ module.exports = importdata = async () => {
   const vbook = new Category({
     name: "Vietnamese Book",
     path: "/root/bookedu/vbook",
-    desc: "vbook"
+    desc: "vbook",
+    icon: "/images/vbook.png"
 
   })
   const vbookS = await vbook.save()
@@ -1256,28 +1312,32 @@ module.exports = importdata = async () => {
   const fbook = new Category({
     name: "Foreign Book",
     path: "/root/bookedu/fbook",
-    desc: "fbook"
+    desc: "fbook",
+    icon: "/images/fbook.png"
   })
   const fbookS = await fbook.save()
 
   const stationery = new Category({
     name: "Stationery",
     path: "/root/bookedu/stationery",
-    desc: "stationery"
+    desc: "stationery",
+    icon: "/images/stationery.png"
   })
   const stationeryS = await stationery.save()
 
   const instrument = new Category({
     name: "Instrument",
     path: "/root/bookedu/instrument",
-    desc: "instrument"
+    desc: "instrument",
+    icon: "/images/instrument.png"
   })
   const instrumentS = await instrument.save()
 
   const souvenir = new Category({
     name: "Souvenir",
     path: "/root/bookedu/souvenir",
-    desc: "souvenir"
+    desc: "souvenir",
+    icon: "/images/souvenir.png"
   })
   const souvenirS = await souvenir.save()
 
@@ -1296,42 +1356,49 @@ module.exports = importdata = async () => {
   const milk = new Category({
     name: "Milk",
     path: "/root/fooddrink/milk",
-    desc: "mild"
+    desc: "milk",
+    icon: "/images/milk.png"
   })
   const milkS = await milk.save()
 
   const gift = new Category({
     name: "Gift",
     path: "/root/fooddrink/gift",
-    desc: "gift"
+    desc: "gift",
+    icon: "/images/gift.png"
   })
   const giftS = await gift.save()
 
   const beverage = new Category({
     name: "Beverage",
     path: "/root/fooddrink/beverage",
-    desc: "beverage"
+    desc: "beverage",
+    icon: "/images/beverage.png"
   })
   const beverageS = await beverage.save()
 
   const cannedpackage = new Category({
     name: "Canned/Package Food",
     path: "/root/fooddrink/canpack",
-    desc: "can/package"
+    desc: "can/package",
+    icon: "/images/cannedpackage.png"
   })
   const cannedpackageS = await cannedpackage.save()
 
   const drink = new Category({
     name: "Drink",
     path: "/root/fooddrink/drink",
-    desc: "drink"
+    desc: "drink",
+    icon: "/images/drink.png"
+
   })
   const drinkS = await drink.save()
   
   const snack = new Category({
     name: "Snack",
     path: "/root/fooddrink/snack",
-    desc: "snack"
+    desc: "snack",
+    icon: "/images/snack.png"
   })
   const snackS = await snack.save()
 
