@@ -12,15 +12,16 @@ module.exports = importdata = async () => {
   const menwatch = new Category({
     name: "watch",
     path: "/root/menswear/accessories/watch",
-    desc: "watch"
-
+    desc: "watch",
+    icon: "/images/menwatch.png"
   })
   const menwatchS = await menwatchS.save()
 
   const menjewelry = new Category({
     name: "Jewelry",
     path: "/root/menswear/accessories/jewelry",
-    desc: "jewelry"
+    desc: "jewelry",
+    icon: "/images/menjewelry.png"
 
   })
   const menjewelryS = await menjewelry.save()
@@ -28,7 +29,8 @@ module.exports = importdata = async () => {
   const menglasses = new Category({
     name: "Glasses",
     path: "/root/menswear/accessories/glasses",
-    desc: "glasses"
+    desc: "glasses",
+    icon: "/images/menglasses.png"
 
   })
   const menglassesS = await menglasses.save()
@@ -36,7 +38,8 @@ module.exports = importdata = async () => {
   const mensockglove= new Category({
     name: "Socks/Gloves",
     path: "/root/menswear/accessories/sockglove",
-    desc: "socks/gloves"
+    desc: "socks/gloves",
+    icon: "/images/mensockglove.png"
 
   })
   const mensockgloveS = await mensockglove.save()
@@ -44,23 +47,17 @@ module.exports = importdata = async () => {
   const mentie= new Category({
     name: "Tie",
     path: "/root/menswear/accessories/tie",
-    desc: "tie"
+    desc: "tie",
+    icon: "/images/mentie.png"
 
   })
   const mentieS = await mentie.save()
 
-  const menshawl= new Category({
-    name: "Shawl",
-    path: "/root/menswear/accessories/shawl",
-    desc: "shawl"
-
-  })
-  const menshawlS = await menshawl.save()
-
   const menbelt= new Category({
     name: "Belt",
     path: "/root/menswear/accessories/belt",
-    desc: "belt"
+    desc: "belt",
+    icon: "/images/menbelt.png"
 
   })
   const menbeltS = await menbelt.save()
@@ -68,7 +65,8 @@ module.exports = importdata = async () => {
   const menhatcap= new Category({
     name: "Hat/Cap",
     path: "/root/menswear/accessories/hatcap",
-    desc: "hat/cap"
+    desc: "hat/cap",
+    icon: "/images/menhatcap.png"
 
   })
   const menhatcapS = await menhatcap.save()
@@ -77,7 +75,8 @@ module.exports = importdata = async () => {
     name: "Accessories",
     path: "/root/menswear/accessories",
     desc: "accessories",
-    children: [menhatcapS._id, menbriefcase._id, mentieS._id, menglassesS._id, menshawlS._id, mensockgloveS._id, menjewelryS._id, menwatchS._id]
+    icon: "/images/menaccessories.png",
+    children: [menhatcapS._id, menbriefcase._id, mentieS._id, menglassesS._id, menshawlS._id, mensockgloveS._id, menjewelryS._id, menwatchS._id, menbeltS._id]
   })
   const menaccessoriesS = await menaccessories.save()
 
@@ -86,7 +85,8 @@ module.exports = importdata = async () => {
   const menbriefcase= new Category({
     name: "Briefcase",
     path: "/root/menswear/bagwallet/briefcase",
-    desc: "briefcase"
+    desc: "briefcase",
+    icon: "/images/menbriefcase.png"
 
   })
   const menbriefcaseS = await menbriefcase.save()
@@ -94,15 +94,17 @@ module.exports = importdata = async () => {
   const menbackpack = new Category({
     name: "Backpack",
     path: "/root/menswear/bagwallet/backpack",
-    desc: "backpack"
+    desc: "backpack",
+    icon: "/images/menbackpack.png"
 
   })
   const menbackpackS = await menbackpack.save()
 
   const mencrossbody = new Category({
-    name: "Crossbody",
+    name: "Crossbody Bag",
     path: "/root/menswear/bagwallet/crossbody",
-    desc: "crossbody"
+    desc: "crossbody",
+    icon: "/images/mencrossbody.png"
 
   })
   const mencrossbodyS = await mencrossbody.save()
@@ -110,7 +112,8 @@ module.exports = importdata = async () => {
   const menfannypack = new Category({
     name: "Fanny Pack",
     path: "/root/menswear/bagwallet/fannypack",
-    desc: "fanny pack"
+    desc: "fanny pack",
+    icon: "/images/menfannypack.png"
 
   })
   const menfannypackS = await menfannypack.save()
@@ -118,7 +121,8 @@ module.exports = importdata = async () => {
   const menshoulderbag = new Category({
     name: "Shoulder Bag",
     path: "/root/menswear/bagwallet/shoulderbag",
-    desc: "shoulder bag"
+    desc: "shoulder bag",
+    icon: "/images/menshoulderbag.png"
 
   })
   const menshoulderbagS = await menshoulderbag.save()
@@ -126,7 +130,8 @@ module.exports = importdata = async () => {
   const menwallet = new Category({
     name: "Wallet",
     path: "/root/menswear/bagwallet/wallet",
-    desc: "wallet"
+    desc: "wallet",
+    icon: "/images/menwallet.png"
 
   })
   const menwalletS = await menwallet.save()
@@ -135,6 +140,7 @@ module.exports = importdata = async () => {
     name: "Bag/Wallet",
     path: "/root/menswear/bagwallet",
     desc: "bag/wallet",
+    icon: "/images/menbagwallet.png",
     children: [menwalletS._id, menshoulderbagS._id, mencrossbodyS._id, menbackpackS._id, menfannypackS._id, menbriefcaseS._id]
   })
   const menbagwallerS = await menbagwallet.save()
@@ -145,7 +151,8 @@ module.exports = importdata = async () => {
   const mentrousers = new Category({
     name: "Trousers",
     path: "/root/menswear/pant/trousers",
-    desc: "pant"
+    desc: "pant",
+    icon: "/images/menstrouser.png"
 
   })
   const mentrousersS = await mentrousers.save()
@@ -153,7 +160,8 @@ module.exports = importdata = async () => {
   const menunderwear = new Category({
     name: "Underwear",
     path: "/root/menswear/pant/underwear",
-    desc: "underwear"
+    desc: "underwear",
+    icon: "/images/menunderwear.png"
 
   })
   const menunderwearS = await menunderwear.save()
@@ -161,7 +169,8 @@ module.exports = importdata = async () => {
   const menkaki = new Category({
     name: "Kaki",
     path: "/root/menswear/pant/kaki",
-    desc: "kaki"
+    desc: "kaki",
+    icon: "/images/menkaki.png"
 
   })
   const menkakiS = await menkaki.save()
@@ -169,7 +178,8 @@ module.exports = importdata = async () => {
   const mensport = new Category({
     name: "Sport Pant",
     path: "/root/menswear/pant/sport",
-    desc: "sport"
+    desc: "sport",
+    icon: "/images/mensport.png"
 
   })
   const mensportS = await mensport.save()
@@ -177,7 +187,8 @@ module.exports = importdata = async () => {
   const menshort = new Category({
     name: "Short",
     path: "/root/menswear/pant/short",
-    desc: "short"
+    desc: "short",
+    icon: "/images/menshort.png"
 
   })
   const menshortS = await menshort.save()
@@ -185,7 +196,8 @@ module.exports = importdata = async () => {
   const menjean = new Category({
     name: "Jean",
     path: "/root/menswear/pant/jean",
-    desc: "pant"
+    desc: "jean",
+    icon: "/images/menjean.png"
 
   })
   const menjeanS = await menjean.save()
@@ -194,6 +206,7 @@ module.exports = importdata = async () => {
     name: "Pant",
     path: "/root/menswear/pant",
     desc: "pant",
+    icon: "/images/menpant.png",
     children: [menjeanS._id, menshortS._id, mensportS._id, menkakiS._id, mentrousersS._id, menunderwearS._id]
   })
   const menpantS = await menpant.save()
@@ -204,7 +217,8 @@ module.exports = importdata = async () => {
   const mencardigan = new Category({
     name: "Cardigan",
     path: "/root/menswear/jacket/cardigan",
-    desc: "cargigan"
+    desc: "cargigan",
+    icon: "/images/mencardigan.png"
 
   })
   const mencardiganS = await mencardigan.save()
@@ -212,7 +226,8 @@ module.exports = importdata = async () => {
   const menwindbreaker = new Category({
     name: "Windbreaker",
     path: "/root/menswear/jacket/windbreaker",
-    desc: "winbreaker"
+    desc: "winbreaker",
+    icon: "/images/menwindbreaker.png"
 
   })
   const menwindbreakerS = await menwindbreaker.save()
@@ -220,7 +235,8 @@ module.exports = importdata = async () => {
   const menleather = new Category({
     name: "Leather Jacket",
     path: "/root/menswear/jacket/leather",
-    desc: "leather"
+    desc: "leather",
+    icon: "/images/menleather.png"
 
   })
   const menleatherS = await menleather.save()
@@ -228,7 +244,8 @@ module.exports = importdata = async () => {
   const menvest = new Category({
     name: "Vest",
     path: "/root/menswear/jacket/vest",
-    desc: "vest"
+    desc: "vest",
+    icon: "/images/menvest.png"
 
   })
   const menvestS = await menvest.save()
@@ -236,7 +253,8 @@ module.exports = importdata = async () => {
   const mendenim = new Category({
     name: "Denim",
     path: "/root/menswear/jacket/denim",
-    desc: "denim"
+    desc: "denim",
+    icon: "/images/mendenim.png"
 
   })
   const mendenimS = await mendenim.save()
@@ -244,7 +262,8 @@ module.exports = importdata = async () => {
   const menblazer = new Category({
     name: "Blazer",
     path: "/root/menswear/jacket/blazer",
-    desc: "blazer"
+    desc: "blazer",
+    icon: "/images/menblazer.png"
 
   })
   const menblazerS = await menblazer.save()
@@ -253,6 +272,7 @@ module.exports = importdata = async () => {
     name: "Jacket",
     path: "/root/menswear/jacket",
     desc: "jacket",
+    icon: "/images/menjacket.png",
     children: [menblazerS._id, mendenimS._id, menvestS._id, menleatherS._id, menwindbreakerS._id, mencardiganS._id]
   })
   const menjacketS = await menjacket.save()
@@ -263,7 +283,8 @@ module.exports = importdata = async () => {
   const mensweater = new Category({
     name: "Sweater",
     path: "/root/menswear/shirt/sweater",
-    desc: "sweater"
+    desc: "sweater",
+    icon: "/images/mensweater.png"
 
   })
   const mensweaterS = await mensweater.save() 
@@ -271,7 +292,8 @@ module.exports = importdata = async () => {
   const mensweatshirt = new Category({
     name: "Sweatshirt",
     path: "/root/menswear/shirt/sweatshirt",
-    desc: "sweatshirt"
+    desc: "sweatshirt",
+    icon: "/images/mensweatshirt.png"
 
   })
   const mensweatshirtS = await mensweatshirt.save() 
@@ -279,7 +301,8 @@ module.exports = importdata = async () => {
   const mentshirt = new Category({
     name: "T-Shirt",
     path: "/root/menswear/shirt/tshirt",
-    desc: "t-shirt"
+    desc: "t-shirt",
+    icon: "/images/mentshirt.png"
 
   })
   const mentshirtS = await mentshirt.save() 
@@ -287,7 +310,8 @@ module.exports = importdata = async () => {
   const menlongsleeve = new Category({
     name: "Long-sleeved Shirt",
     path: "/root/menswear/shirt/longsleeve",
-    desc: "long-sleeved shirt"
+    desc: "long-sleeved shirt",
+    icon: "/images/menlongsleeve.png"
 
   })
   const menlongsleeveS = await menlongsleeve.save()  
@@ -295,7 +319,8 @@ module.exports = importdata = async () => {
   const menpolo = new Category({
     name: "Polo",
     path: "/root/menswear/shirt/polo",
-    desc: "polo"
+    desc: "polo",
+    icon: "/images/menpolo.png"
 
   })
   const menpoloS = await menpolo.save()  
@@ -304,6 +329,7 @@ module.exports = importdata = async () => {
     name: "Shirt",
     path: "/root/menswear/shirt",
     desc: "shirt",
+    icon: "/images/menshirt.png",
     children: [menpoloS._id, menlongsleeveS._id, mentshirtS._id, mensweatshirtS._id, mensweaterS._id]
 
   })
@@ -326,35 +352,40 @@ module.exports = importdata = async () => {
   const womenbomber = new Category({
     name: "Bomber Jacket",
     path: "/root/womenswear/coat/bomber",
-    desc: "bomber"
+    desc: "bomber",
+    icon: "/images/womenbomber.png"
   })
   const womenbomberS = await womenbomber.save() 
 
   const womenleather = new Category({
     name: "Leather Jacket",
     path: "/root/womenswear/coat/leather",
-    desc: "leather"
+    desc: "leather",
+    icon: "/images/womenleather.png"
   })
   const womenleatherS = await womenleather.save() 
 
   const womenjean = new Category({
     name: "Jean Jacket",
     path: "/root/womenswear/coat/jean",
-    desc: "jean"
+    desc: "jean",
+    icon: "/images/womenjean.png"
   })
   const womenjeanS = await womenjean.save() 
 
   const womencardigan = new Category({
     name: "Cardigan",
     path: "/root/womenswear/coat/cardigan",
-    desc: "cardigan"
+    desc: "cardigan",
+    icon: "/images/womencardigan.png"
   })
   const womencardiganS = await womencardigan.save() 
 
   const womenvestblazer = new Category({
     name: "Vest/Blazed",
     path: "/root/womenswear/coat/vestblazer",
-    desc: "vest/blazer"
+    desc: "vest/blazer",
+    icon: "/images/womenvestblazer.png"
   })
   const womenvestblazerS = await womenvestblazer.save() 
 
@@ -362,6 +393,7 @@ module.exports = importdata = async () => {
     name: "Coat",
     path: "/root/womenswear/coat",
     desc: "coat",
+    icon: "/images/womencoat.png",
     children: [womenvestblazerS._id, womencardiganS._id, womenjeanS._id, womenleatherS._id, womenbomberS._id]
   })
   const womencoatS = await womencoat.save() 
@@ -371,7 +403,8 @@ module.exports = importdata = async () => {
   const womenpijama = new Category({
     name: "Pijama",
     path: "/root/womenswear/underpija/pijama",
-    desc: "pijama"
+    desc: "pijama",
+    icon: "/images/womenpijama.png"
 
   })
   const womenpijamaS = await womenpijama.save() 
@@ -379,7 +412,8 @@ module.exports = importdata = async () => {
   const womenlingerie = new Category({
     name: "Lingerie",
     path: "/root/womenswear/underpija/lingerie",
-    desc: "lingerie"
+    desc: "lingerie",
+    icon: "/images/womenlingerie.png"
 
   })
   const womenlingerieS = await womenlingerie.save() 
@@ -387,7 +421,8 @@ module.exports = importdata = async () => {
   const womenabra = new Category({
     name: "Bra",
     path: "/root/womenswear/underpija/bra",
-    desc: "bra"
+    desc: "bra",
+    icon: "/images/womenbra.png"
 
   })
   const womenbraS = await womenabra.save()  
@@ -396,6 +431,7 @@ module.exports = importdata = async () => {
     name: "Underwear/Pijama",
     path: "/root/womenswear/underpija",
     desc: "underwear/pijama",
+    icon: "/images/womenunderpija.png",
     children: [womenbraS._id, womenlingerieS._id, womenpijamaS._id]
   })
   const womendressS = await womendress.save() 
@@ -405,23 +441,17 @@ module.exports = importdata = async () => {
   const womenaline = new Category({
     name: "A Line Skirt",
     path: "/root/womenswear/skirt/aline",
-    desc: "alineskirt"
+    desc: "alineskirt",
+    icon: "/images/womenaline.png"
 
   })
   const womenalineS = await womenaline.save()  
 
-  const womenbabydoll = new Category({
-    name: "Babydoll",
-    path: "/root/womenswear/skirt/babydoll",
-    desc: "babydoll"
-
-  })
-  const womenbabydollS = await womenbabydoll.save()  
-
   const womenlongskirt = new Category({
     name: "Long Skirt",
     path: "/root/womenswear/skirt/long",
-    desc: "longskirt"
+    desc: "longskirt",
+    icon: "/images/womenlongskirt.png"
 
   })
   const womenlongskirtS = await womenlongskirt.save()  
@@ -429,7 +459,8 @@ module.exports = importdata = async () => {
   const womenminiskirt = new Category({
     name: "Miniskirt",
     path: "/root/womenswear/skirt/mini",
-    desc: "miniskirt"
+    desc: "miniskirt",
+    icon: "/images/womenminiskirt.png"
 
   })
   const womenminiskirtS = await womenminiskirt.save()  
@@ -438,7 +469,8 @@ module.exports = importdata = async () => {
     name: "Skirt",
     path: "/root/womenswear/skirt",
     desc: "skirt",
-    children: [womenminiskirtS._id, womenlongskirtS._id, womenbabydollS._id, womenalineS._id]
+    icon: "/images/womenskirt.png",
+    children: [womenminiskirtS._id, womenlongskirtS._id, womenalineS._id]
   })
   const womenskirtS = await womenskirt.save() 
 
@@ -447,7 +479,8 @@ module.exports = importdata = async () => {
   const womenloosedress = new Category({
     name: "Loose Dress",
     path: "/root/womenswear/dress/loosedress",
-    desc: "loosedress"
+    desc: "loosedress",
+    icon: "/images/womenloosedress.png"
 
   })
   const womenloosedressS = await womenloosedress.save()  
@@ -455,7 +488,8 @@ module.exports = importdata = async () => {
   const womentightdress = new Category({
     name: "Tight Dress",
     path: "/root/womenswear/dress/tightdress",
-    desc: "tightdress"
+    desc: "tightdress",
+    icon: "/images/womentightdress.png"
 
   })
   const womentightdressS = await womentightdress.save()  
@@ -463,7 +497,8 @@ module.exports = importdata = async () => {
   const womenlongdress = new Category({
     name: "Long Dress",
     path: "/root/womenswear/dress/longdress",
-    desc: "longdress"
+    desc: "longdress",
+    icon: "/images/womenlongdress.png"
 
   })
   const womenlongdressS = await womenlongdress.save()  
@@ -471,7 +506,8 @@ module.exports = importdata = async () => {
   const womenshortdress = new Category({
     name: "Short Dress",
     path: "/root/womenswear/dress/shortdress",
-    desc: "shortdress"
+    desc: "shortdress",
+    icon: "/images/womenshortdress.png"
 
   })
   const womenshortdressS = await womenshortdress.save()  
@@ -480,6 +516,7 @@ module.exports = importdata = async () => {
     name: "Dess",
     path: "/root/womenswear/dress",
     desc: "dress",
+    icon: "/images/womendress.png",
     children: [womenshortdressS._id, womenlongdressS._id, womentightdressS._id, womenloosedressS._id]
   })
   const womendressS = await womendress.save() 
@@ -490,7 +527,8 @@ module.exports = importdata = async () => {
   const womenmodernwear = new Category({
     name: "Modern Wear",
     path: "/root/womenswear/top/modernwear",
-    desc: "modernwear"
+    desc: "modernwear",
+    icon: "/images/womenmodernwear.png"
 
   })
   const womenmodernwearS = await womenmodernwearS.save()  
@@ -498,7 +536,8 @@ module.exports = importdata = async () => {
   const womencroptop = new Category({
     name: "Crop Top",
     path: "/root/womenswear/top/croptop",
-    desc: "croptop"
+    desc: "croptop",
+    icon: "/images/womencroptop.png"
 
   })
   const womencroptopS = await womencroptop.save()  
@@ -506,7 +545,8 @@ module.exports = importdata = async () => {
   const womenshirt = new Category({
     name: "Shirt",
     path: "/root/womenswear/top/shirt",
-    desc: "shirt"
+    desc: "shirt",
+    icon: "/images/womenshirt.png"
 
   })
   const womenshirtS = await womenshirt.save()  
@@ -515,6 +555,7 @@ module.exports = importdata = async () => {
     name: "Top",
     path: "/root/womenswear/top",
     desc: "top",
+    icon: "/images/womentop.png",
     children: [womenshirtS._id, womencroptopS._id, womenmodernwearS._id]
 
   })
@@ -537,7 +578,8 @@ module.exports = importdata = async () => {
   const ptsim = new Category({
     name: "Sim",
     path: "/root/phonetab/accessories/sim",
-    desc: "sim"
+    desc: "sim",
+    icon: "/images/ptsim.png"
 
   })
   const ptsimS = await ptsim.save()
@@ -545,7 +587,8 @@ module.exports = importdata = async () => {
   const ptbattery = new Category({
     name: "Battery",
     path: "/root/phonetab/accessories/battery",
-    desc: "battery"
+    desc: "battery",
+    icon: "/images/ptbattery.png"
 
   })
   const ptbatteryS = await ptbattery.save()
@@ -553,7 +596,8 @@ module.exports = importdata = async () => {
   const cablecharger = new Category({
     name: "Cable/Charger",
     path: "/root/phonetab/accessories/cablecharger",
-    desc: "cablecharger"
+    desc: "cablecharger",
+    icon: "/images/cablecharger.png"
 
   })
   const cablechargerS = await cablecharger.save()
@@ -561,7 +605,8 @@ module.exports = importdata = async () => {
   const backupbattery = new Category({
     name: "Rechargeable Battery",
     path: "/root/phonetab/accessories/backupbattery",
-    desc: "backupbattery"
+    desc: "backupbattery",
+    icon: "/images/backupbattery.png"
 
   })
   const backupbatteryS = await backupbattery.save()
@@ -570,6 +615,7 @@ module.exports = importdata = async () => {
     name: "Accessories",
     path: "/root/phonetab/accessories",
     desc: "accessories",
+    icon: "/images/ptaccessories.png",
     children: [backupbatteryS._id, cablechargerS._id, ptbatteryS._id, ptsimS._id]
 
   })
@@ -579,7 +625,8 @@ module.exports = importdata = async () => {
   const screenprotector = new Category({
     name: "Screen Protector",
     path: "/root/phonetab/screenprotector",
-    desc: "screenprotector"
+    desc: "screenprotector",
+    icon: "/images/screenprotector.png"
 
   })
   const screenprotectorS = await screenprotector.save()
@@ -588,7 +635,8 @@ module.exports = importdata = async () => {
   const casecover = new Category({
     name: "Case/Cover",
     path: "/root/phonetab/casecover",
-    desc: "case/cover"
+    desc: "case/cover",
+    icon: "/images/casecover.png"
 
   })
   const casecoverS = await casecover.save()
@@ -598,7 +646,8 @@ module.exports = importdata = async () => {
   const tabletother = new Category({
     name: "Others",
     path: "/root/phonetab/tablet/other",
-    desc: "others"
+    desc: "others",
+    icon: "/images/tabletother.png"
 
   })
   const tabletotherS = await tabletother.save()
@@ -606,7 +655,8 @@ module.exports = importdata = async () => {
   const tabletkindle = new Category({
     name: "Kindle",
     path: "/root/phonetab/tablet/kindle",
-    desc: "kindle"
+    desc: "kindle",
+    icon: "/images/tabletkindle.png"
 
   })
   const tabletkindleS = await tabletkindle.save()
@@ -614,7 +664,8 @@ module.exports = importdata = async () => {
   const tabletIpad = new Category({
     name: "Ipad",
     path: "/root/phonetab/tablet/ipad",
-    desc: "ipad"
+    desc: "ipad",
+    icon: "/images/tabletIpad.png"
 
   })
   const tabletIpadS = await tabletIpad.save()
@@ -623,6 +674,7 @@ module.exports = importdata = async () => {
     name: "Tablets",
     path: "/root/phonetab/tablet",
     desc: "tablet",
+    icon: "/images/tablet.png",
     children: [tabletIpadS._id, tabletkindleS._id, tabletotherS._id]
 
   })
@@ -632,7 +684,8 @@ module.exports = importdata = async () => {
   const smartphone = new Category({
     name: "Smartphone",
     path: "/root/phonetab/phone/smart",
-    desc: "smartphone"
+    desc: "smartphone",
+    icon: "/images/smartphone.png"
 
   })
   const smartphoneS = await smartphone.save()
@@ -640,7 +693,8 @@ module.exports = importdata = async () => {
   const casualphone = new Category({
     name: "Casual Phone",
     path: "/root/phonetab/phone/casual",
-    desc: "casualphone"
+    desc: "casualphone",
+    icon: "/images/casualphone.png"
 
   })
   const casualphoneS = await casualphone.save()
@@ -649,6 +703,7 @@ module.exports = importdata = async () => {
     name: "Phone",
     path: "/root/phonetab/phone",
     desc: "phone",
+    icon: "/images/phone.png",
     children: [casualphoneS._id, smartphoneS._id]
 
   })
@@ -672,7 +727,8 @@ module.exports = importdata = async () => {
   const wearable = new Category({
     name: "Wearable",
     path: "/root/electronic/wearable",
-    desc: "wearable"
+    desc: "wearable",
+    icon: "/images/wearable.png"
   })
   const wearableS = await wearable.save()
 
@@ -680,7 +736,8 @@ module.exports = importdata = async () => {
   const tv = new Category({
     name: "TV",
     path: "/root/electronic/tv",
-    desc: "tv"
+    desc: "tv",
+    icon: "/images/tv.png"
   })
   const tvS = await tv.save()
 
@@ -688,7 +745,8 @@ module.exports = importdata = async () => {
   const accessgaming = new Category({
     name: "Accessories & Gaming",
     path: "/root/electronic/accessgaming",
-    desc: "access&gaming"
+    desc: "access&gaming",
+    icon: "/images/accessgaming.png"
   })
   const accessgamingS = await accessgaming.save()
 
@@ -696,21 +754,24 @@ module.exports = importdata = async () => {
   const overear = new Category({
     name: "Over-ear Headphone",
     path: "/root/electronic/audio/overear",
-    desc: "over"
+    desc: "over",
+    icon: "/images/overear.png"
   })
   const overearS = await overear.save()
 
   const onear = new Category({
     name: "On-ear Headphone",
     path: "/root/electronic/audio/onear",
-    desc: "onear"
+    desc: "onear",
+    icon: "/images/onear.png"
   })
   const onearS = await onear.save()
 
   const inear = new Category({
     name: "In-ear Headphone",
     path: "/root/electronic/audio/inear",
-    desc: "inear"
+    desc: "inear",
+    icon: "/images/inear.png"
   })
   const inearS = await inear.save()
 
@@ -718,6 +779,7 @@ module.exports = importdata = async () => {
     name: "Headphone",
     path: "/root/electronic/headphone",
     desc: "headphone",
+    icon: "/images/headphone.png",
     children: [inearS._id, onearS._id, overearS._id]
 
   })
@@ -727,21 +789,24 @@ module.exports = importdata = async () => {
   const karaoke = new Category({
     name: "Karaoke",
     path: "/root/electronic/audio/karaoke",
-    desc: "karaoke"
+    desc: "karaoke",
+    icon: "/images/karaoke.png"
   })
   const karaokeS = await karaoke.save()
 
   const mediaplayer = new Category({
     name: "Media Player",
     path: "/root/electronic/audio/mediaplayer",
-    desc: "mediaplayer"
+    desc: "mediaplayer",
+    icon: "/images/mediaplayer.png"
   })
   const mediaplayerS = await mediaplayer.save()
 
   const speaker = new Category({
     name: "Speaker",
     path: "/root/electronic/audio/speaker",
-    desc: "speaker"
+    desc: "speaker",
+    icon: "/images/speaker.png"
   })
   const speakerS = await speaker.save()
 
@@ -749,6 +814,7 @@ module.exports = importdata = async () => {
     name: "Audio",
     path: "/root/electronic/audio",
     desc: "audio",
+    icon: "/images/audio.png",
     children: [speakerS._id, mediaplayerS._id, karaokeS._id]
 
   })
