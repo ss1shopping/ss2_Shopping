@@ -42,9 +42,11 @@ passport.use(new LocalStrategy({
                     // if (user.active == false) {
                     //     return done(null, false, { msg: "please active account to login" })
                     // }
+		    
                     return done(null, user)
 
                 }
+		console.log(isMatch);
                 return done(null, false, { msg: "email or password not correct" })
             })
 

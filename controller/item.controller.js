@@ -15,6 +15,7 @@ const Model = require("../schema/models.schema");
 const Tier_variation = require("../schema/tier_variations.schema")
 const client = require("../elasticsearch/index")
 const { v4: uuidv4 } = require('uuid');
+const Models = require("../schema/models.schema");
 module.exports = {
     /**
      * @URL /item/get
@@ -24,21 +25,21 @@ module.exports = {
      */
     searchItem: async (req, res, next) => {
         let { keyword, category, sortPrice, rangePrice, rating, sold, page, limit } = req.query
-
+console.log("keyword"+keyword);
         let searchQuery = {
             query: {
                 bool: {
-                    must: [
-                        {
-                            query_string: {
-                                query: `*${keyword}*`, fields: ["dec", "attributes.value.keyword", "name"],
-                                analyzer: "whitespace",
-                                tie_breaker: 0.7,
-                                analyze_wildcard: true
-                            }
-                        }
+                //     must: [
+                //         {
+                //             query_string: {
+                //                 query: `*${keyword}*`, fields: ["dec", "attributes.value.keyword", "name"],
+                //                 analyzer: "whitespace",
+                //                 tie_breaker: 0.7,
+                //                 analyze_wildcard: true
+                //             }
+                //         }
 
-                    ],
+                //     ],
                     filter: [
                         // { term: { category: "6052043ffd654697aa6d5e7b" } },
                         // { term: { category: "6052043ffd654697aa6d5e71" } },
@@ -61,14 +62,32 @@ module.exports = {
             from: 0,
             size: 20,
         }
+	if(keyword=== '' || keyword===null || keyword===undefined){
+		console.log("run");
+		
+	}
+	else{
+		searchQuery.query.bool.must=
+		[
+		       {
+			   query_string: {
+			       query: `*${keyword}*`, fields: ["dec", "attributes.value.keyword", "name"],
+			       analyzer: "whitespace",
+			       tie_breaker: 0.7,
+			       analyze_wildcard: true
+			   }
+		       }
+
+		   ]
+	}
         limit ? limit = limit : limit = 20
         page ? page = (page - 1) : page = 0
         page < 0 ? page = 0 : page = page
         searchQuery.from = page * limit
-        console.log("category" + category);
+       // console.log("category" + category);
         if (category) {
             category = JSON.parse(category)
-
+		console.log(category);
             category.map((v, i) => {
                 let newterm = {
                     term: { category: v },
@@ -134,11 +153,15 @@ module.exports = {
     * @param {name,priceMin,priceMax,discount,sold,category}
     */
     addItem: async (req, res, next) => {
+	 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
         let { priceMin, priceMax, name, desc, category, shopId, attributes, model, tier_variations } = req.body
+	if(!priceMin){
+		priceMin=0
+	}
         if (priceMin > priceMax) {
             return res.json({ msg: "price min not > maxPrice" })
         }
@@ -152,6 +175,7 @@ module.exports = {
             model.map((v, i) => {
 
                 v.itemId = newitem._id
+                v.price_before_discount = v.price
                 // let newmodel = new Model({
                 //     ...v
                 // })
@@ -215,7 +239,7 @@ module.exports = {
             return res.status(400).json({ errors: errors.array() });
         }
         let {
-            id, priceMin, priceMax
+            id, priceMin, priceMax, discount
         } = req.body
         if (priceMax < priceMin) {
             return res.json({ msg: "priceMax must greater than pmin price" })
@@ -235,7 +259,24 @@ module.exports = {
                 msg: "item not  found"
             })
         }
-        console.log(itemsupdate);
+
+        if (discount) {
+            const listModel = await Models.find({ itemId: id })
+
+            let newarraypromise = []
+            listModel.map((v, i) => {
+                const result = Models.findByIdAndUpdate(v._id, {
+                    price: v.price_before_discount - (v.price_before_discount / 100 * discount),
+                    price_before_discount: v.price
+                })
+                newarraypromise.push(result)
+            })
+            // if((listModel).length>0){
+            Promise.all(newarraypromise).then(response => console.log(response))
+
+            // }
+        }
+
         const response = await client.update({
             index: 'item',
             type: '_doc',
@@ -276,6 +317,8 @@ module.exports = {
             }
 
             await items.remove();
+            const model = await Models.deleteMany({ itemId: id })
+            console.log(model);
             const response = await client.delete({
                 index: 'item',
                 type: '_doc',
@@ -319,6 +362,7 @@ module.exports = {
             }
             res.json({ path, msg: "delete successful" })
         })
-    }
+    },
+
 
 }

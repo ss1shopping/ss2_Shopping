@@ -19,8 +19,8 @@ router.get("/search",
 )
 router.post("/create", [
   body('name').notEmpty().isString().withMessage('you must supply validate name'),
-  body("priceMin").optional().isInt({ min: 1 }).withMessage("you must supply validate  minPrice "),
-  body("priceMax").optional().isInt({ min: 1 }).withMessage("you must supply validate maxPrice"),
+  body("priceMin").optional().isInt({ min: 0 }).withMessage("you must supply validate  minPrice "),
+  body("priceMax").optional().isInt({ min: 0 }).withMessage("you must supply validate maxPrice"),
   body("discount").optional().isInt().withMessage("you must supply validate discount"),
   body("sold").optional().isInt({ min: 0 }).withMessage("number sold have problem"),
   body("category").notEmpty().isArray().withMessage("you must supply category"),
@@ -58,4 +58,5 @@ router.route("/uploadImage")
     shoppingController.uploadImage)
 router.route("/deleteImage")
   .post(shoppingController.deleteImage)
+
 module.exports = router;
